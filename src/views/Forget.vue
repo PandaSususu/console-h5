@@ -26,8 +26,7 @@
 </template>
 
 <script>
-import { getCode } from '@/api/getCode'
-import { sendEmail } from '@/api/sendEmail'
+import { getCode, sendEmail } from '@/api/login'
 export default {
   data() {
     return {

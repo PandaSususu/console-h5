@@ -48,7 +48,7 @@
 </template>
 
 <script>
-import { getCode } from '@/api/getCode'
+import { getCode } from '@/api/login'
 export default {
   data() {
     return {

@@ -8,7 +8,7 @@
         <router-link :to="{ name: 'reg' }">注册</router-link>
       </li>
     </ul>
-    <form class="layui-form layui-form-pane" action>
+    <form class="layui-form layui-form-pane">
       <div class="layui-form-item">
         <label class="layui-form-label">邮箱</label>
         <div class="layui-input-inline">
@@ -32,14 +32,16 @@
         <div class="layui-form-mid layui-word-aux">{{ errors.first('code') }}</div>
       </div>
 
-      <button type="button" class="layui-btn">立即登录</button>
+      <button class="layui-btn" @click="channer()">立即登录</button>
       <router-link :to="{ name: 'forget' }" class="btn-hover">忘记密码</router-link>
     </form>
   </div>
 </template>
 
 <script>
-import { getCode } from '@/api/getCode'
+import { getCode } from '@/api/login'
+import uuid from 'uuid/v4'
+
 export default {
   data() {
     return {
@@ -51,15 +53,29 @@ export default {
   },
   methods: {
     _getCode() {
-      getCode().then(res => {
-        console.log(res)
+      getCode(this.$store.state.sid).then(res => {
         if (res.code === 200) {
           this.codeInfo = res.data
         }
       })
+    },
+    channer() {
+      if (this.codeInfo.text !== this.code) {
+        alert('验证码不正确')
+        return
+      }
+      console.log('xxx')
     }
   },
   mounted() {
+    let sid = ''
+    if (localStorage.getItem('sid')) {
+      sid = localStorage.getItem('sid')
+    } else {
+      sid = uuid()
+      localStorage.setItem('sid', sid)
+    }
+    this.$store.commit('setSid', sid)
     this._getCode()
   }
 }
