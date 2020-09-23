@@ -8,38 +8,49 @@
         <router-link :to="{ name: 'reg' }">注册</router-link>
       </li>
     </ul>
-    <form class="layui-form layui-form-pane">
-      <div class="layui-form-item">
-        <label class="layui-form-label">邮箱</label>
-        <div class="layui-input-inline">
-          <input type="text" name="email" placeholder="请输入邮箱" autocomplete="off" class="layui-input" v-model.trim="email" v-validate="'required|email'" />
+    <validation-observer ref="observer" v-slot="{ validate }">
+      <form class="layui-form layui-form-pane">
+        <div class="layui-form-item">
+          <label class="layui-form-label">邮箱</label>
+          <validation-provider rules="required|email" v-slot="{ errors }">
+            <div class="layui-input-inline">
+              <input type="text" name="email" placeholder="请输入邮箱" autocomplete="off" class="layui-input" v-model.trim="email" />
+            </div>
+            <div class="layui-form-mid layui-word-aux">
+              <span>{{ errors[0] }}</span>
+            </div>
+          </validation-provider>
         </div>
-        <div class="layui-form-mid layui-word-aux">{{ errors.first('email') }}</div>
-      </div>
-      <div class="layui-form-item">
-        <label class="layui-form-label">密码</label>
-        <div class="layui-input-inline">
-          <input type="password" name="password" v-model="password" v-validate="'required|max:16|min:6'" placeholder="请输入密码" autocomplete="off" class="layui-input" />
+        <div class="layui-form-item">
+          <label class="layui-form-label">密码</label>
+          <validation-provider rules="required|max:16|min:6" v-slot="{ errors }">
+            <div class="layui-input-inline">
+              <input type="password" name="password" v-model="password" placeholder="请输入密码" autocomplete="off" class="layui-input" />
+            </div>
+            <div class="layui-form-mid layui-word-aux">{{ errors[0] }}</div>
+          </validation-provider>
         </div>
-        <div class="layui-form-mid layui-word-aux">{{ errors.first('password') }}</div>
-      </div>
-      <div class="layui-form-item">
-        <label class="layui-form-label">验证码</label>
-        <div class="layui-input-inline">
-          <input type="text" name="code" v-validate="'required|length:4'" placeholder="请输入验证码" autocomplete="off" class="layui-input" />
+        <div class="layui-form-item">
+          <label class="layui-form-label">验证码</label>
+          <validation-provider rules="required|length:4" v-slot="{ errors }">
+            <div class="layui-input-inline">
+              <input type="text" name="code" v-model="code" placeholder="请输入验证码" autocomplete="off" class="layui-input" />
+            </div>
+            <div class="layui-form-mid layui-word-aux svg" v-html="codeInfo.svg" @click="_getCode()"></div>
+            <div class="layui-form-mid layui-word-aux">{{ errors[0] }}</div>
+          </validation-provider>
         </div>
-        <div class="layui-form-mid layui-word-aux svg" v-html="codeInfo.svg" @click="_getCode()"></div>
-        <div class="layui-form-mid layui-word-aux">{{ errors.first('code') }}</div>
-      </div>
 
-      <button class="layui-btn" @click="channer()">立即登录</button>
-      <router-link :to="{ name: 'forget' }" class="btn-hover">忘记密码</router-link>
-    </form>
+        <button class="layui-btn" type="button" @click="validate().then(submit)">立即登录</button>
+        <router-link :to="{ name: 'forget' }" class="btn-hover">忘记密码</router-link>
+      </form>
+    </validation-observer>
   </div>
 </template>
 
 <script>
-import { getCode } from '@/api/login'
+import { ValidationProvider, ValidationObserver } from 'vee-validate'
+import { getCode, login } from '@/api/login'
 import uuid from 'uuid/v4'
 
 export default {
@@ -51,6 +62,10 @@ export default {
       code: ''
     }
   },
+  components: {
+    ValidationProvider,
+    ValidationObserver
+  },
   methods: {
     _getCode() {
       getCode(this.$store.state.sid).then(res => {
@@ -59,12 +74,19 @@ export default {
         }
       })
     },
-    channer() {
-      if (this.codeInfo.text !== this.code) {
-        alert('验证码不正确')
-        return
+    async submit() {
+      const isValid = await this.$refs.observer.validate()
+      if (!isValid) {
+        return false
       }
-      console.log('xxx')
+      login({
+        userName: this.name,
+        password: this.password,
+        code: this.code,
+        sid: this.$store.state.sid
+      }).then(res => {
+        console.log(res)
+      })
     }
   },
   mounted() {
