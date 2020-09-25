@@ -5,7 +5,7 @@ import axios from '@/utils/request'
  * @param {*} emailInfo 邮箱信息
  */
 const sendEmail = async (emailInfo) => {
-  return axios.post('/sendemail', emailInfo)
+  return axios.post('/login/sendemail', emailInfo)
 }
 
 /**
@@ -13,7 +13,7 @@ const sendEmail = async (emailInfo) => {
  * @param {*} sid 图片验证码唯一标识
  */
 const getCode = async (sid) => {
-  return axios.get('/getcode', {
+  return axios.get('/public/getcode', {
     params: {
       sid: sid
     }
@@ -25,7 +25,7 @@ const getCode = async (sid) => {
  * @param {*} loginInfo 用户登录信息
  */
 const login = async (loginInfo) => {
-  return axios.post('/login', loginInfo)
+  return axios.post('/login/login', loginInfo)
 }
 
 export { sendEmail, getCode, login }

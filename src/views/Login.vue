@@ -80,16 +80,21 @@ export default {
         return false
       }
       login({
-        userName: this.name,
+        userName: this.email,
         password: this.password,
         code: this.code,
         sid: this.$store.state.sid
       }).then(res => {
-        console.log(res)
+        if (res.code === 10000) {
+          console.log('登陆成功')
+        } else {
+          this.$alert(res.message)
+        }
       })
     }
   },
   mounted() {
+    window.vue = this
     let sid = ''
     if (localStorage.getItem('sid')) {
       sid = localStorage.getItem('sid')
