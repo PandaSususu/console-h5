@@ -30,19 +30,21 @@
             <div class="layui-form-mid layui-word-aux">{{ errors[0] }}</div>
           </validation-provider>
         </div>
-        <div class="layui-form-item">
+        <div class="layui-form-item captcha">
           <label class="layui-form-label">验证码</label>
-          <validation-provider rules="required|length:4" v-slot="{ errors }">
+          <validation-provider ref="codefield" rules="required|length:4" v-slot="{ errors }">
             <div class="layui-input-inline">
               <input type="text" name="code" v-model="code" placeholder="请输入验证码" autocomplete="off" class="layui-input" />
             </div>
-            <div class="layui-form-mid layui-word-aux svg" v-html="codeInfo.svg" @click="_getCode()"></div>
             <div class="layui-form-mid layui-word-aux">{{ errors[0] }}</div>
+            <div class="layui-form-mid layui-word-aux svg" v-html="codeInfo.svg" @click="_getCode()"></div>
           </validation-provider>
         </div>
 
-        <button class="layui-btn" type="button" @click="validate().then(submit)">立即登录</button>
-        <router-link :to="{ name: 'forget' }" class="btn-hover">忘记密码</router-link>
+        <div class="submit">
+          <button class="layui-btn" type="button" @click="validate().then(submit)">立即登录</button>
+          <router-link :to="{ name: 'forget' }" class="btn-hover">忘记密码</router-link>
+        </div>
       </form>
     </validation-observer>
   </div>
@@ -87,6 +89,8 @@ export default {
       }).then(res => {
         if (res.code === 10000) {
           console.log('登陆成功')
+        } else if (res.code === 9003) {
+          this.$refs.codefield.setErrors([res.message])
         } else {
           this.$alert(res.message)
         }
@@ -110,6 +114,7 @@ export default {
 <style lang="scss" scoped>
 .layui-container {
   background-color: #fff;
+  overflow: hidden;
 }
 
 .layui-bg-white {
@@ -133,9 +138,15 @@ export default {
   width: 250px;
 }
 
-.svg {
-  position: relative;
-  top: -15px;
+.captcha {
+  height: 80px;
+  .svg {
+    position: relative;
+    padding: 0 !important;
+    height: 38px;
+    clear: both;
+    margin-left: 110px;
+  }
 }
 
 .btn-hover {
@@ -147,5 +158,9 @@ export default {
 
 .layui-word-aux {
   color: red !important ;
+}
+
+.submit {
+  margin: 40px 0 20px;
 }
 </style>

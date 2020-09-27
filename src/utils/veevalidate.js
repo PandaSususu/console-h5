@@ -34,6 +34,9 @@ localize('zh_CN', {
   fields: {
     email: {
       email: '请输入正确的{_field_}'
+    },
+    confirmPassword: {
+      confirmed: '确认密码不匹配'
     }
   }
 })

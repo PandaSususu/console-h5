@@ -28,4 +28,12 @@ const login = async (loginInfo) => {
   return axios.post('/login/login', loginInfo)
 }
 
-export { sendEmail, getCode, login }
+/**
+ * 用户注册接口
+ * @param {*} loginInfo 用户注册信息
+ */
+const reg = async (regInfo) => {
+  return axios.post('/login/reg', regInfo)
+}
+
+export { sendEmail, getCode, login, reg }
