@@ -82,13 +82,13 @@ export default {
         return false
       }
       login({
-        userName: this.email,
+        email: this.email,
         password: this.password,
         code: this.code,
         sid: this.$store.state.sid
       }).then(res => {
         if (res.code === 10000) {
-          console.log('登陆成功')
+          this.$router.push('/')
         } else if (res.code === 9003) {
           this.$refs.codefield.setErrors([res.message])
         } else {

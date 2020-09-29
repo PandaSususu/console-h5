@@ -2,11 +2,11 @@
   <div>
     <ui-panel></ui-panel>
     <div class="layui-container">
-      <div class="layui-row">
-        <div class="layui-col-md8">
+      <div class="row">
+        <div>
           <ui-list></ui-list>
         </div>
-        <div class="layui-col-md4">
+        <div>
           <ui-tips></ui-tips>
           <ui-sign></ui-sign>
           <ui-hotlist></ui-hotlist>
@@ -44,5 +44,17 @@ export default {
 <style lang="scss" scoped>
   .list {
     margin-right: 10px;
+  }
+
+  .row {
+    display: flex;
+
+    >div:first-child {
+      flex: 6;
+    }
+    >div:last-child {
+      flex: 4;
+      margin-left: 10px;
+    }
   }
 </style>

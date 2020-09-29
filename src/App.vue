@@ -27,6 +27,7 @@ export default {
   padding: 0 10px;
   margin-bottom: 10px;
   overflow: hidden;
+  box-shadow: 5px 5px 5px #ddd;
 
   .title {
     padding: 10px 0;

@@ -70,7 +70,7 @@ export default {
     margin-left: 10px;
     span {
       color: #e6941a;
-  }
+    }
   }
 }
 </style>
