@@ -22,6 +22,7 @@ class HttpRequest {
   // 设定拦截器
   interceptors(instance) {
     instance.interceptors.request.use((config) => {
+      console.log('请求~~~>' + config.url + '到~~~>' + config.baseUrl)
       return config
     }, (error) => {
       errorHandle(error)

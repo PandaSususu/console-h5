@@ -22,4 +22,15 @@ export default {
 #app {
   background-color: #f2f2f2;
 }
+.ui-panel {
+  background-color: #fff;
+  padding: 0 10px;
+  margin-bottom: 10px;
+  overflow: hidden;
+
+  .title {
+    padding: 10px 0;
+    border-bottom: 1px solid #f2f2f2;
+  }
+}
 </style>

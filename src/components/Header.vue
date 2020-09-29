@@ -1,6 +1,6 @@
 <template>
   <ul class="layui-nav" lay-filter="">
-    <li class="layui-nav-item"><a href="">最新活动</a></li>
+    <li class="layui-nav-item"><router-link :to="{ 'name': 'home' }">首页</router-link></li>
     <li class="layui-nav-item layui-this"><a href="">产品</a></li>
     <li class="layui-nav-item"><a href="">大数据</a></li>
     <li class="layui-nav-item">

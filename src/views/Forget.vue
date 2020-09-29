@@ -10,22 +10,24 @@
           <label class="layui-form-label">邮箱</label>
           <validation-provider rules="required|email" v-slot="{ errors }">
             <div class="layui-input-inline">
-              <input type="text" name="email" placeholder="请输入邮箱" autocomplete="off" class="layui-input" v-model.trim="email" v-validate="'required|email'" />
+              <input type="text" name="email" placeholder="请输入邮箱" autocomplete="off" class="layui-input" v-model.trim="email" />
             </div>
-            <div class="layui-form-mid layui-word-aux">{{ errors.first[0] }}</div>
+            <div class="layui-form-mid layui-word-aux">{{ errors[0] }}</div>
           </validation-provider>
         </div>
-        <div class="layui-form-item">
+        <div class="layui-form-item captcha">
           <label class="layui-form-label">验证码</label>
           <validation-provider rules="required|length:4" v-slot="{ errors }">
             <div class="layui-input-inline">
-            <input type="text" name="code" v-validate="'required|length:4'" placeholder="请输入验证码" v-model.trim="code" autocomplete="off" class="layui-input" />
-          </div>
-          <div class="layui-form-mid layui-word-aux svg" v-html="codeInfo.svg" @click="_getCode()"></div>
-          <div class="layui-form-mid layui-word-aux">{{ errors.first[0] }}</div>
+              <input type="text" name="code" placeholder="请输入验证码" v-model.trim="code" autocomplete="off" class="layui-input" />
+            </div>
+            <div class="layui-form-mid layui-word-aux">{{ errors[0] }}</div>
+            <div class="layui-form-mid layui-word-aux svg" v-html="codeInfo.svg" @click="_getCode()"></div>
           </validation-provider>
         </div>
-        <button type="button" class="layui-btn"  @click="validate().then(submit)">提交</button>
+        <div class="submit">
+          <button type="button" class="layui-btn" @click="validate().then(submit)">提交</button>
+        </div>
       </form>
     </validation-observer>
   </div>
@@ -49,20 +51,22 @@ export default {
   },
   methods: {
     _getCode() {
-      getCode().then(res => {
+      getCode(this.$store.state.sid).then((res) => {
         if (res.code === 200) {
           this.codeInfo = res.data
         }
       })
     },
-    submit() {
-      if (this.code.toLowerCase() === this.codeInfo.text.toLowerCase()) {
-        sendEmail({ email: this.email }).then(res => {
-          if (res.code === 200) {
-            alert('邮箱发送成功')
-          }
-        })
+    async submit() {
+      const isValid = await this.$refs.observer.validate()
+      if (!isValid) {
+        return false
       }
+      sendEmail({ email: this.email }).then((res) => {
+        if (res.code === 200) {
+          alert('邮箱发送成功')
+        }
+      })
     }
   },
   mounted() {
@@ -73,6 +77,7 @@ export default {
 <style lang="scss" scoped>
 .layui-container {
   background-color: #fff;
+  overflow: hidden;
 }
 
 .layui-bg-white {
@@ -96,9 +101,15 @@ export default {
   width: 250px;
 }
 
-.svg {
-  position: relative;
-  top: -15px;
+.captcha {
+  height: 80px;
+  .svg {
+    position: relative;
+    padding: 0 !important;
+    height: 38px;
+    clear: both;
+    margin-left: 110px;
+  }
 }
 
 .btn-hover {
@@ -110,5 +121,9 @@ export default {
 
 .layui-word-aux {
   color: red !important ;
+}
+
+.submit {
+  margin: 40px 0 20px;
 }
 </style>
