@@ -8,12 +8,25 @@ Vue.use(VueRouter)
 const Login = () => import('../views/Login.vue')
 const Reg = () => import('../views/Reg.vue')
 const Forget = () => import('../views/Forget.vue')
+const Index = () => import('../views/channels/Index.vue')
+const Page1 = () => import('../views/channels/Page1.vue')
 
 const routes = [
   {
     path: '/',
-    name: 'home',
-    component: Home
+    component: Home,
+    children: [
+      {
+        path: '',
+        name: 'index',
+        component: Index
+      },
+      {
+        path: '/index/:catalog',
+        name: 'catalog',
+        component: Page1
+      }
+    ]
   },
   {
     path: '/login',
@@ -40,6 +53,7 @@ const routes = [
 ]
 
 const router = new VueRouter({
+  linkExactActiveClass: 'layui-this',
   routes
 })
 
