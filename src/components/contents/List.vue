@@ -17,41 +17,124 @@
           <li>按热议</li>
         </ul>
       </div>
-      <ul>
-        <li>
-          <div class="pic"></div>
-          <div class="content">
-            <div class="info">
-              <p class="news-title"><span class="tag">动态</span>基于layui的极简社区页面模板</p>
-              <div class="tags">
-                <p class="user">张三<span class="tag">VIP</span></p>
-                <span class="created">2020-10-01</span>
-                <span class="favs"
-                  ><svg t="1601371362583" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="3938" width="200" height="200">
-                    <path
-                      d="M780.97 144.725a40.96 40.96 0 0 1 34.836 19.415l146.09 236.202c9.654 15.608 7.748 35.73-4.664 49.249L543.536 900.15c-16.14 17.578-43.831 17.691-60.115 0.245L62.9 449.836c-12.65-13.553-14.62-33.913-4.802-49.639l147.456-236.202a40.96 40.96 0 0 1 34.746-19.27z m-22.828 81.92h-495.13l-118.78 190.273L513.12 812.155l362.782-395.111-117.76-190.399zM633.515 401.408c22.621 0 40.96 18.338 40.96 40.96s-18.339 40.96-40.96 40.96H382.293c-22.621 0-40.96-18.338-40.96-40.96s18.339-40.96 40.96-40.96h251.222z"
-                      p-id="3939"
-                      fill="#F76809"
-                    ></path></svg
-                  >60</span
-                >
-                <span class="end tag">已结</span>
-              </div>
-            </div>
-            <div class="label">
-              <span class="tag">精华</span>
-              <p class="count"><span class="layui-icon layui-icon-dialogue"></span>66</p>
-            </div>
-          </div>
-        </li>
-      </ul>
+      <ui-listitem :lists="list"></ui-listitem>
     </div>
   </div>
 </template>
 
 <script>
+import ListItem from './ListItem'
+
 export default {
-  name: 'list'
+  name: 'list',
+  components: {
+    'ui-listitem': ListItem
+  },
+  data() {
+    return {
+      list: [
+        {
+          tid: '1',
+          title: '帖子标题',
+          catalog: 'index',
+          favs: 2,
+          created: '2020-09-28',
+          isEnd: '0',
+          reads: 50,
+          answer: 10,
+          status: '0',
+          isTop: '0',
+          topNum: '0',
+          tags: [
+            {
+              name: '精华',
+              class: 'layui-bg-red'
+            },
+            {
+              name: '精华',
+              class: 'layui-bg-orange'
+            },
+            {
+              name: '精华',
+              class: 'layui-bg-cyan'
+            }
+          ],
+          user: {
+            id: '用户id',
+            isVip: '1',
+            name: '用户名',
+            pic: 'http://xxxx.jpg'
+          }
+        },
+        {
+          tid: '1',
+          title: '帖子标题',
+          catalog: 'index',
+          favs: 2,
+          created: '2020-09-28',
+          isEnd: '0',
+          reads: 50,
+          answer: 10,
+          status: '0',
+          isTop: '0',
+          topNum: '0',
+          tags: [
+            {
+              name: '精华',
+              class: 'layui-bg-red'
+            },
+            {
+              name: '精华',
+              class: 'layui-bg-orange'
+            },
+            {
+              name: '精华',
+              class: 'layui-bg-cyan'
+            }
+          ],
+          user: {
+            id: '用户id',
+            isVip: '1',
+            name: '用户名',
+            pic: 'http://xxxx.jpg'
+          }
+        },
+        {
+          tid: '1',
+          title: '帖子标题',
+          catalog: 'index',
+          favs: 2,
+          created: '2020-09-28',
+          isEnd: '0',
+          reads: 50,
+          answer: 10,
+          status: '0',
+          isTop: '0',
+          topNum: '0',
+          tags: [
+            {
+              name: '精华',
+              class: 'layui-bg-red'
+            },
+            {
+              name: '精华',
+              class: 'layui-bg-orange'
+            },
+            {
+              name: '精华',
+              class: 'layui-bg-cyan'
+            }
+          ],
+          user: {
+            id: '用户id',
+            isVip: '1',
+            name: '用户名',
+            pic: 'http://xxxx.jpg'
+          }
+        }
+      ]
+    }
+  }
 }
 </script>
 
@@ -144,7 +227,7 @@ li {
           display: flex;
           align-items: center;
           span {
-            background-color: #D54D2B;
+            background-color: #d54d2b;
             color: #fff;
             margin-left: 4px;
           }
@@ -181,9 +264,9 @@ li {
       justify-content: space-between;
       align-items: center;
 
-      >span {
+      > span {
         color: #fff;
-        background-color: #E6941A;
+        background-color: #e6941a;
       }
       .count {
         display: flex;
