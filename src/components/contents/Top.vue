@@ -2,12 +2,13 @@
   <div>
     <div class="ui-panel">
       <h3 class="title">置顶</h3>
-      <ui-listitem :lists="list"></ui-listitem>
+      <ui-listitem :lists="lists_" @loadMore="loadMore()" :isEnd="isEnd_"></ui-listitem>
     </div>
   </div>
 </template>
 
 <script>
+import { getList } from '@/api/home'
 import ListItem from './ListItem'
 
 export default {
@@ -17,108 +18,55 @@ export default {
   },
   data() {
     return {
-      list: [
-        {
-          tid: '1',
-          title: '帖子标题',
-          catalog: 'index',
-          favs: 2,
-          created: '2020-09-28',
-          isEnd: '0',
-          reads: 50,
-          answer: 10,
-          status: '0',
-          isTop: '0',
-          topNum: '0',
-          tags: [
-            {
-              name: '精华',
-              class: 'layui-bg-red'
-            },
-            {
-              name: '精华',
-              class: 'layui-bg-orange'
-            },
-            {
-              name: '精华',
-              class: 'layui-bg-cyan'
-            }
-          ],
-          user: {
-            id: '用户id',
-            isVip: '1',
-            name: '用户名',
-            pic: 'http://xxxx.jpg'
+      lists_: [],
+      isTop: '1',
+      page: 0,
+      limit: 19,
+      catalog: '',
+      sort: 'created',
+      status: '',
+      tag: '',
+      isEnd_: false,
+      isLoad: false
+    }
+  },
+  methods: {
+    _getList() {
+      this.isLoad = true
+      const options = {
+        isTop: this.isTop,
+        page: this.page,
+        limit: this.limit,
+        catalog: this.catalog,
+        sort: this.sort,
+        status: this.status,
+        tag: this.tag
+      }
+      getList(options).then((res) => {
+        this.isLoad = false
+        if (res.code === 200) {
+          if (res.data.length < this.limit) {
+            this.isEnd_ = true
           }
-        },
-        {
-          tid: '1',
-          title: '帖子标题',
-          catalog: 'index',
-          favs: 2,
-          created: '2020-09-28',
-          isEnd: '0',
-          reads: 50,
-          answer: 10,
-          status: '0',
-          isTop: '0',
-          topNum: '0',
-          tags: [
-            {
-              name: '精华',
-              class: 'layui-bg-red'
-            },
-            {
-              name: '精华',
-              class: 'layui-bg-orange'
-            },
-            {
-              name: '精华',
-              class: 'layui-bg-cyan'
-            }
-          ],
-          user: {
-            id: '用户id',
-            isVip: '1',
-            name: '用户名',
-            pic: 'http://xxxx.jpg'
-          }
-        },
-        {
-          tid: '1',
-          title: '帖子标题',
-          catalog: 'index',
-          favs: 2,
-          created: '2020-09-28',
-          isEnd: '0',
-          reads: 50,
-          answer: 10,
-          status: '0',
-          isTop: '0',
-          topNum: '0',
-          tags: [
-            {
-              name: '精华',
-              class: 'layui-bg-red'
-            },
-            {
-              name: '精华',
-              class: 'layui-bg-orange'
-            },
-            {
-              name: '精华',
-              class: 'layui-bg-cyan'
-            }
-          ],
-          user: {
-            id: '用户id',
-            isVip: '1',
-            name: '用户名',
-            pic: 'http://xxxx.jpg'
+          if (!this.lists_.length) {
+            this.lists_ = res.data
+          } else {
+            this.lists_ = this.lists_.concat(res.data)
           }
         }
-      ]
+      }).catch((error) => {
+        this.$alert(error)
+        this.isLoad = false
+      })
+    },
+    loadMore() {
+      if (this.isLoad) return
+      this.page++
+      this._getList()
     }
+  },
+  mounted() {
+    this._getList()
   }
 }
 </script>
