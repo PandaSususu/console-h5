@@ -3,18 +3,18 @@
     <div class="ui-panel">
       <div class="nav">
         <ul>
-          <li>综合</li>
+          <li @click="search()">综合</li>
           <li><span class="line"></span></li>
-          <li>未结</li>
+          <li @click="search(0)">未结</li>
           <li><span class="line"></span></li>
-          <li>已结</li>
+          <li @click="search(1)">已结</li>
           <li><span class="line"></span></li>
-          <li>精华</li>
+          <li @click="search(2)">精华</li>
         </ul>
         <ul>
-          <li>按最新</li>
+          <li @click="search(3)">按最新</li>
           <li><span class="line"></span></li>
-          <li>按热议</li>
+          <li @click="search(4)">按热议</li>
         </ul>
       </div>
       <ui-listitem :lists="lists_" @loadMore="loadMore()" :isEnd="isEnd_"></ui-listitem>
@@ -38,11 +38,23 @@ export default {
       page: 0,
       limit: 19,
       catalog: '',
-      sort: 'created',
+      sort: '',
       status: '',
       tag: '',
       isEnd_: false,
-      isLoad: false
+      isLoad: false,
+      current: undefined
+    }
+  },
+  watch: {
+    current(newval, oldval) {
+      this.init()
+      this._getList()
+    },
+    '$route'(newval, oldval) {
+      this.catalog = newval.params.catalog
+      this.init()
+      this._getList()
     }
   },
   methods: {
@@ -70,7 +82,7 @@ export default {
           }
         }
       }).catch((error) => {
-        this.$alert(error)
+        this.$alert(error.message)
         this.isLoad = false
       })
     },
@@ -78,6 +90,40 @@ export default {
       if (this.isLoad) return
       this.page++
       this._getList()
+    },
+    search(val) {
+      if (this.current === val) {
+        return
+      }
+      this.current = val
+      switch (val) {
+        case 0:
+          this.status = '0'
+          this.tag = ''
+          break
+        case 1:
+          this.status = '1'
+          this.tag = ''
+          break
+        case 2:
+          this.status = ''
+          this.tag = '精华'
+          break
+        case 3:
+          this.sort = 'created'
+          break
+        case 4:
+          this.sort = 'answer'
+          break
+        default:
+          this.tag = ''
+          this.status = ''
+          break
+      }
+    },
+    init() {
+      this.lists_ = []
+      this.isEnd_ = false
     }
   },
   mounted() {

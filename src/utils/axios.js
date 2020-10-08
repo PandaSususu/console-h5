@@ -2,9 +2,12 @@ import axios from 'axios'
 
 import errorHandle from './errorHandle'
 
+const CancelToken = axios.CancelToken
+
 class HttpRequest {
   constructor(baseUrl) {
     this.baseUrl = baseUrl
+    this.pending = {}
   }
 
   // 获取axios配置
@@ -14,15 +17,28 @@ class HttpRequest {
       headers: {
         'Content-Type': 'application/json;charset=utf-8'
       },
-      timeout: 10000
+      timeout: 80000
     }
     return config
+  }
+
+  // 取消重复请求
+  removePending(key, isRequest = false) {
+    if (this.pending[key] && isRequest) {
+      this.pending[key]('你正在重复请求')
+    }
+    delete this.pending[key]
   }
 
   // 设定拦截器
   interceptors(instance) {
     instance.interceptors.request.use((config) => {
       console.log('请求~~~>' + config.url + '到~~~>' + config.baseUrl)
+      const key = config.url + '&' + config.method
+      this.removePending(key, true)
+      config.cancelToken = new CancelToken((c) => {
+        this.pending[key] = c
+      })
       return config
     }, (error) => {
       errorHandle(error)
@@ -30,6 +46,8 @@ class HttpRequest {
     })
 
     instance.interceptors.response.use((res) => {
+      const key = res.config.url + '&' + res.config.method
+      this.removePending(key)
       if (res.status === 200) {
         return Promise.resolve(res.data)
       } else {
