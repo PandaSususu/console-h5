@@ -6,21 +6,26 @@
         <p>layui的Github</p>
         <p><span class="layui-icon layui-icon-dialogue"></span>16</p>
       </li>
-      <li>
-        <p>layui的Github</p>
-        <p><span class="layui-icon layui-icon-dialogue"></span>16</p>
-      </li>
-      <li>
-        <p>layui的Github</p>
-        <p><span class="layui-icon layui-icon-dialogue"></span>16</p>
-      </li>
     </ul>
   </div>
 </template>
 
 <script>
+import { getTopWeek } from '@/api/home'
+
 export default {
-  name: 'hotList'
+  name: 'hotList',
+  data() {
+    return {
+      hotList: []
+    }
+  },
+  mounted() {
+    getTopWeek().then((res) => {
+      console.log(res)
+      this.hotList = res.data
+    })
+  }
 }
 </script>
 

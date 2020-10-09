@@ -1,0 +1,15 @@
+body, html {
+  height: 100%;
+}
+
+.fly-margin-top {
+  margin-top: 10px;
+}
+
+.fly-margin-left {
+  margin-left: 10px;
+}
+
+.fly-margin-right {
+  margin-right: 10px;
+}

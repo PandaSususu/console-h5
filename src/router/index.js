@@ -5,11 +5,12 @@ import Home from '@/views/Home'
 
 Vue.use(VueRouter)
 
-const Login = () => import('../views/Login.vue')
-const Reg = () => import('../views/Reg.vue')
-const Forget = () => import('../views/Forget.vue')
-const Index = () => import('../views/channels/Index.vue')
-const Page1 = () => import('../views/channels/Page1.vue')
+const Login = () => import(/* webpackChunkName: 'login' */ '../views/Login.vue')
+const Reg = () => import(/* webpackChunkName: 'reg' */ '../views/Reg.vue')
+const Forget = () => import(/* webpackChunkName: 'forget' */ '../views/Forget.vue')
+const Index = () => import(/* webpackChunkName: 'index' */ '../views/channels/Index.vue')
+const Page1 = () => import(/* webpackChunkName: 'page1' */ '../views/channels/Page1.vue')
+const Center = () => import(/* webpackChunkName: 'center' */ '../views//Center.vue')
 
 const routes = [
   {
@@ -49,6 +50,10 @@ const routes = [
     path: '/forget',
     name: 'forget',
     component: Forget
+  }, {
+    path: '/center',
+    name: 'center',
+    component: Center
   }
 ]
 

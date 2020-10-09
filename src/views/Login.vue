@@ -88,6 +88,8 @@ export default {
         sid: this.$store.state.sid
       }).then(res => {
         if (res.code === 10000) {
+          this.$store.commit('setUserInfo', res.data)
+          this.$store.commit('setLoginStatus', true)
           this.$router.push('/')
         } else if (res.code === 9003) {
           this.$refs.codefield.setErrors([res.message])
