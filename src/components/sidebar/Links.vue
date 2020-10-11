@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import { getLinks } from '@/api/home'
+import { getLinks } from '@/api/index'
 
 export default {
   name: 'links',

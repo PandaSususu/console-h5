@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import { getList } from '@/api/home'
+import { getList } from '@/api/index'
 import ListItem from './ListItem'
 
 export default {

@@ -145,7 +145,7 @@ export default {
   .svg {
     position: relative;
     padding: 0 !important;
-    height: 38px;
+    height: 60px;
     clear: both;
     margin-left: 110px;
   }
@@ -156,10 +156,6 @@ export default {
   &:hover {
     color: #009688;
   }
-}
-
-.layui-word-aux {
-  color: red !important ;
 }
 
 .submit {

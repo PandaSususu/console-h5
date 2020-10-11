@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import { getTips } from '@/api/home'
+import { getTips } from '@/api/index'
 
 export default {
   name: 'tips',

@@ -19,11 +19,12 @@ export default new Vuex.Store({
     setUserInfo(state, value) {
       state.userInfo = value.userJson
       state.token = value.token
+      localStorage.setItem('userInfo', JSON.stringify(state.userInfo))
+      localStorage.setItem('token', state.token)
     },
     // 设置登陆状态
     setLoginStatus(state, value) {
       state.isLogin = value
-      console.log(state.isLogin)
     }
   },
   actions: {

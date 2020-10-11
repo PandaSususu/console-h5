@@ -34,9 +34,18 @@ const getLinks = async () => {
   return axios.get('/public/links')
 }
 
+/**
+ * 获取推荐课程
+ * @param {*}
+ */
+const getAds = async () => {
+  return axios.get('/public/ads')
+}
+
 export {
   getList,
   getTopWeek,
   getTips,
-  getLinks
+  getLinks,
+  getAds
 }

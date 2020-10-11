@@ -39,4 +39,8 @@ export default {
     border-bottom: 1px solid #f2f2f2;
   }
 }
+
+.layui-word-aux {
+  color: red !important ;
+}
 </style>

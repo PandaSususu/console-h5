@@ -1,10 +1,10 @@
 <template>
-  <div>footer</div>
+  <div>password</div>
 </template>
 
 <script>
 export default {
-  name: 'bottom-footer',
+  name: 'modify-password',
   data() {
     return {}
   },

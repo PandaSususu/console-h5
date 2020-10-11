@@ -1,6 +1,6 @@
 <template>
   <div v-show="isShow">
-    <div class="alert-box">
+    <div class="alert-box" :class="{ active: isShow }">
       <div class="flex">{{ msg }}</div>
       <div v-if="type === 'alert'">
         <button @click="close()">确定</button>
@@ -83,6 +83,10 @@ export default {
     text-align: center;
     z-index: 3000;
 
+    &.active {
+      animation: show .3s ease;
+    }
+
     button {
       width: 80px;
       height: 36px;
@@ -122,5 +126,15 @@ export default {
     left: 0;
     background-color: rgba(0, 0, 0, .4);
     z-index: 2000;
+  }
+
+  @keyframes show {
+    0% {
+      opacity: 0;
+      transform: scale(.5);
+    } 100% {
+      opacity: 1;
+      transform: scale(1);
+    }
   }
 </style>

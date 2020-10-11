@@ -4,7 +4,7 @@
       <ul>
         <li>签到</li>
         <li><span class="line"></span></li>
-        <li>说明</li>
+        <li @click="explain()">说明</li>
         <li><span class="line"></span></li>
         <li>活跃榜<span class="layui-badge-dot"></span></li>
       </ul>
@@ -14,12 +14,21 @@
       <button class="layui-btn layui-btn-danger">今日签到</button>
       <p>可获得<span>5</span>飞吻</p>
     </div>
+
+    <view>
+      <div ref="test">
+        <h1>哈哈哈哈哈</h1>
+      </div>
+    </view>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'sign'
+  name: 'sign',
+  methods: {
+    explain() {}
+  }
 }
 </script>
 

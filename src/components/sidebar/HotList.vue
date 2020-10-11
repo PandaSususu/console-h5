@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import { getTopWeek } from '@/api/home'
+import { getTopWeek } from '@/api/index'
 
 export default {
   name: 'hotList',

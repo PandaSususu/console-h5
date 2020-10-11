@@ -1,5 +1,5 @@
 <template>
-  <ul class="layui-nav" lay-filter="">
+  <ul class="layui-nav">
     <li class="layui-nav-item"><router-link to="/">首页</router-link></li>
     <li class="layui-nav-item"><a href="">产品</a></li>
     <li class="layui-nav-item"><a href="">大数据</a></li>
@@ -27,9 +27,9 @@
       <li class="layui-nav-item float-right">
         <a href="javascript:;"><img :src="userInfo.pic" class="layui-nav-img" />{{ userInfo.name }}</a>
         <dl class="layui-nav-child">
-          <dd><a href="javascript:;">修改信息</a></dd>
-          <dd><a href="javascript:;">安全管理</a></dd>
-          <dd><a href="javascript:;" @click="loginOut()">注销</a></dd>
+          <dd><router-link :to="{ name: 'setting' }">修改信息</router-link></dd>
+          <dd><a href="javascript:;" @click="switchAccount()">切换账号</a></dd>
+          <dd><a href="javascript:;" @click="quitAccount()">退出登录</a></dd>
         </dl>
       </li>
       <li class="layui-nav-item float-right">
@@ -41,7 +41,7 @@
 
 <script>
 export default {
-  name: 'header',
+  name: 'top-header',
   data() {
     return {}
   },
@@ -63,7 +63,17 @@ export default {
   methods: {
     loginOut() {
       this.$store.commit('setLoginStatus', false)
-      this.$router.push('/login')
+      localStorage.removeItem('token')
+      localStorage.removeItem('userInfo')
+    },
+    switchAccount() {
+      this.$router.push({ name: 'login' })
+    },
+    quitAccount() {
+      this.$confirm('你确定要退出当前登录吗？', () => {
+        this.loginOut()
+        this.$router.push({ name: 'index' })
+      })
     }
   },
   mounted() {}
