@@ -117,24 +117,4 @@ export default {
     align-items: center;
     justify-content: center;
   }
-
-  .mask {
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    background-color: rgba(0, 0, 0, .4);
-    z-index: 2000;
-  }
-
-  @keyframes show {
-    0% {
-      opacity: 0;
-      transform: scale(.5);
-    } 100% {
-      opacity: 1;
-      transform: scale(1);
-    }
-  }
 </style>

@@ -2,7 +2,8 @@
   <div class="ui-panel">
     <h3 class="title">友情链接</h3>
     <ul>
-      <li v-for="(item, index) in links" :key="'link' + index"><a :href="item.link">{{ item.title }}</a></li>
+      <li v-for="(item, index) in links"
+          :key="'link' + index"><a :href="item.link">{{ item.title }}</a></li>
     </ul>
   </div>
 </template>
@@ -12,12 +13,12 @@ import { getLinks } from '@/api/index'
 
 export default {
   name: 'links',
-  data() {
+  data () {
     return {
       links: []
     }
   },
-  mounted() {
+  mounted () {
     getLinks().then((res) => {
       console.log(res)
       this.links = res.data
@@ -35,7 +36,7 @@ ul {
     margin-right: 15px;
   }
   li:last-child a {
-    color: #11C2EE;
+    color: #11c2ee;
   }
 }
 </style>

@@ -46,10 +46,6 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.text-center {
-  text-align: center;
-}
-
 .layui-table {
   margin: 0;
 }

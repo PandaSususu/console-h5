@@ -4,35 +4,54 @@
       <ul>
         <li>签到</li>
         <li><span class="line"></span></li>
-        <li @click="explain()">说明</li>
+        <li @click="isShowExplain = true" class="selected">说明</li>
         <li><span class="line"></span></li>
-        <li>活跃榜<span class="layui-badge-dot"></span></li>
+        <li @click="isShowList = true" class="selected">活跃榜</li>
       </ul>
       <p>已连续签到<span>16</span>天</p>
     </div>
     <div class="sign">
-      <button class="layui-btn layui-btn-danger">今日签到</button>
-      <p>可获得<span>5</span>飞吻</p>
+      <button class="layui-btn layui-btn-danger" @click="sign()">今日签到</button>
+      <p>可获得<span>5</span>积分</p>
     </div>
-
-    <view>
-      <div ref="test">
-        <h1>哈哈哈哈哈</h1>
-      </div>
-    </view>
+    <ui-signExplain :isShow="isShowExplain" @closeModal="close()"></ui-signExplain>
+    <ui-signList :isShow="isShowList" @closeModal="close()"></ui-signList>
   </div>
 </template>
 
 <script>
+import SignExplain from './common/SignExplain'
+import SignList from './common/SignList'
+
 export default {
   name: 'sign',
+  components: {
+    'ui-signExplain': SignExplain,
+    'ui-signList': SignList
+  },
+  data() {
+    return {
+      isShowExplain: false,
+      isShowList: true
+    }
+  },
   methods: {
-    explain() {}
+    close() {
+      this.isShowExplain = false
+      this.isShowList = false
+    },
+    sign() {
+      if (this.$store.state.isLogin) {
+        console.log('一登陆')
+      } else {
+        this.$router.push({ name: 'login' })
+      }
+    }
   }
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .nav {
   border-bottom: 1px solid #f2f2f2;
   overflow: hidden;
@@ -80,6 +99,29 @@ export default {
     span {
       color: #e6941a;
     }
+  }
+}
+
+.explain {
+  max-width: 400px;
+  max-height: 600px;
+  position: fixed;
+  top:0;right:0;bottom:0;left:0;margin:auto;
+  z-index: 3000;
+  background-color: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+
+  &.active {
+    animation: show .3s ease;
+  }
+
+  .title {
+    background-color: #f2f2f2;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    border-radius: 10px 10px 0 0;
   }
 }
 </style>
