@@ -54,21 +54,26 @@ export default {
     avaFavs () {
       if (this.$store.state.isLogin) {
         const count = this.$store.state.userInfo.count
-        return this.computeFavs(count)
+        return this.computeFavs(count + 1)
       } else {
         return 5
       }
     },
     obtFavs() {
       const count = this.$store.state.userInfo.count
-      return this.computeFavs(count - 1)
+      return this.computeFavs(count)
+    },
+    isSign() {
+      if (this.$store.state.userInfo !== {}) {
+        return this.$store.state.userInfo.isSign
+      }
+      return false
     }
   },
   data () {
     return {
       isShowExplain: false,
-      isShowList: false,
-      isSign: this.$store.state.userInfo.isSign
+      isShowList: false
     }
   },
   methods: {
@@ -78,6 +83,7 @@ export default {
     },
     _sign () {
       if (this.isSign) {
+        this.$pop('您今天已签到过啦', 'shake')
         return
       }
       if (this.$store.state.isLogin) {
@@ -87,14 +93,15 @@ export default {
             this.$store.state.userInfo.favs = res.data.favs
             this.$store.state.userInfo.isSign = true
             localStorage.setItem('userInfo', JSON.stringify(this.$store.state.userInfo))
+            this.$pop('签到成功')
           } else {
-            this.$alert(res.message)
+            this.$pop(res.message)
           }
         }).catch((error) => {
           this.$alert(error)
         })
       } else {
-        this.$router.push({ name: 'login' })
+        this.$pop('请先登录哦', 'shake')
       }
     },
     computeFavs(count) {

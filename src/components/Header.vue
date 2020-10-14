@@ -61,6 +61,7 @@ export default {
   },
   methods: {
     loginOut() {
+      this.$pop('退出成功')
       this.$store.commit('setLoginStatus', false)
       this.$store.commit('setUserInfo', { userJson: {}, token: '' })
       localStorage.removeItem('token')
@@ -72,7 +73,7 @@ export default {
     quitAccount() {
       this.$confirm('你确定要退出当前登录吗？', () => {
         this.loginOut()
-        this.$router.push({ name: 'index' })
+        // this.$router.push({ name: 'index' })
       })
     }
   },

@@ -88,6 +88,7 @@ export default {
         sid: this.$store.state.sid
       }).then(res => {
         if (res.code === 10000) {
+          this.$pop('登录成功')
           this.$store.commit('setUserInfo', res.data)
           this.$store.commit('setLoginStatus', true)
           this.$router.push({ name: 'index' })
