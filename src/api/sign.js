@@ -1,13 +1,19 @@
 import axios from '@/utils/request'
+import store from '../store'
+
+const header = {
+  Authorization: 'Bearer ' + store.state.token,
+  'Content-Type': 'application/json'
+}
 
 /**
- * 获取获取签到次数
+ * 用户签到
  * @param {*}
  */
-const signNumber = async () => {
-  return axios.get('/public/list?' + qs.stringify(options))
+const sign = async () => {
+  return axios.get('/user/sign', { headers: header })
 }
 
 export {
-  signNumber
+  sign
 }

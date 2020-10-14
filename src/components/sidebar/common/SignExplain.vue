@@ -22,84 +22,28 @@
             </thead>
             <tbody>
               <tr>
-                <td class="text-center">≥5</td>
+                <td class="text-center">＜5</td>
                 <td class="text-centen">5</td>
               </tr>
                <tr>
                 <td class="text-center">≥5</td>
-                <td class="text-centen">5</td>
+                <td class="text-centen">10</td>
               </tr>
                <tr>
-                <td class="text-center">≥5</td>
-                <td class="text-centen">5</td>
+                <td class="text-center">≥15</td>
+                <td class="text-centen">15</td>
               </tr>
                <tr>
-                <td class="text-center">≥5</td>
-                <td class="text-centen">5</td>
+                <td class="text-center">≥30</td>
+                <td class="text-centen">20</td>
               </tr>
               <tr>
-                <td class="text-center">≥5</td>
-                <td class="text-centen">5</td>
+                <td class="text-center">≥100</td>
+                <td class="text-centen">30</td>
               </tr>
                <tr>
-                <td class="text-center">≥5</td>
-                <td class="text-centen">5</td>
-              </tr>
-               <tr>
-                <td class="text-center">≥5</td>
-                <td class="text-centen">5</td>
-              </tr>
-               <tr>
-                <td class="text-center">≥5</td>
-                <td class="text-centen">5</td>
-              </tr>
-              <tr>
-                <td class="text-center">≥5</td>
-                <td class="text-centen">5</td>
-              </tr>
-               <tr>
-                <td class="text-center">≥5</td>
-                <td class="text-centen">5</td>
-              </tr>
-               <tr>
-                <td class="text-center">≥5</td>
-                <td class="text-centen">5</td>
-              </tr>
-               <tr>
-                <td class="text-center">≥5</td>
-                <td class="text-centen">5</td>
-              </tr>
-              <tr>
-                <td class="text-center">≥5</td>
-                <td class="text-centen">5</td>
-              </tr>
-               <tr>
-                <td class="text-center">≥5</td>
-                <td class="text-centen">5</td>
-              </tr>
-               <tr>
-                <td class="text-center">≥5</td>
-                <td class="text-centen">5</td>
-              </tr>
-               <tr>
-                <td class="text-center">≥5</td>
-                <td class="text-centen">5</td>
-              </tr>
-              <tr>
-                <td class="text-center">≥5</td>
-                <td class="text-centen">5</td>
-              </tr>
-               <tr>
-                <td class="text-center">≥5</td>
-                <td class="text-centen">5</td>
-              </tr>
-               <tr>
-                <td class="text-center">≥5</td>
-                <td class="text-centen">5</td>
-              </tr>
-               <tr>
-                <td class="text-center">≥5</td>
-                <td class="text-centen">5</td>
+                <td class="text-center">≥365</td>
+                <td class="text-centen">50</td>
               </tr>
             </tbody>
           </table>

@@ -50,7 +50,6 @@ export default {
       return this.$store.state.isLogin
     },
     userInfo() {
-      console.log(this.$store.state.userInfo)
       return (
         this.$store.state.userInfo || {
           name: '',
@@ -63,6 +62,7 @@ export default {
   methods: {
     loginOut() {
       this.$store.commit('setLoginStatus', false)
+      this.$store.commit('setUserInfo', { userJson: {}, token: '' })
       localStorage.removeItem('token')
       localStorage.removeItem('userInfo')
     },

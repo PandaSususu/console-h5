@@ -90,7 +90,7 @@ export default {
         if (res.code === 10000) {
           this.$store.commit('setUserInfo', res.data)
           this.$store.commit('setLoginStatus', true)
-          this.$router.push('/')
+          this.$router.push({ name: 'index' })
         } else if (res.code === 9003) {
           this.$refs.codefield.setErrors([res.message])
         } else {

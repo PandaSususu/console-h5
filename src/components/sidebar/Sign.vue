@@ -4,22 +4,36 @@
       <ul>
         <li>签到</li>
         <li><span class="line"></span></li>
-        <li @click="isShowExplain = true" class="selected">说明</li>
+        <li @click="isShowExplain = true"
+            class="selected">说明</li>
         <li><span class="line"></span></li>
-        <li @click="isShowList = true" class="selected">活跃榜</li>
+        <li @click="isShowList = true"
+            class="selected">活跃榜</li>
       </ul>
-      <p>已连续签到<span>16</span>天</p>
+      <p>已连续签到<span>{{ count }}</span>天</p>
     </div>
     <div class="sign">
-      <button class="layui-btn layui-btn-danger" @click="sign()">今日签到</button>
-      <p>可获得<span>5</span>积分</p>
+      <template v-if="!isSign">
+        <button class="layui-btn layui-btn-danger"
+              @click="_sign()">今日签到</button>
+        <p>可获得<span>{{ avaFavs }}</span>积分</p>
+      </template>
+      <template v-if="isSign">
+        <button class="layui-btn layui-btn-disabled"
+              @click="_sign()">今日已签到</button>
+        <p>已获得<span>{{ obtFavs }}</span>积分</p>
+      </template>
     </div>
-    <ui-signExplain :isShow="isShowExplain" @closeModal="close()"></ui-signExplain>
-    <ui-signList :isShow="isShowList" @closeModal="close()"></ui-signList>
+    <ui-signExplain :isShow="isShowExplain"
+                    @closeModal="close()"></ui-signExplain>
+    <ui-signList :isShow="isShowList"
+                 @closeModal="close()"></ui-signList>
   </div>
 </template>
 
 <script>
+import { sign } from '@/api/sign'
+
 import SignExplain from './common/SignExplain'
 import SignList from './common/SignList'
 
@@ -29,23 +43,76 @@ export default {
     'ui-signExplain': SignExplain,
     'ui-signList': SignList
   },
-  data() {
+  computed: {
+    count () {
+      if (this.$store.state.isLogin) {
+        return this.$store.state.userInfo.count
+      } else {
+        return 0
+      }
+    },
+    avaFavs () {
+      if (this.$store.state.isLogin) {
+        const count = this.$store.state.userInfo.count
+        return this.computeFavs(count)
+      } else {
+        return 5
+      }
+    },
+    obtFavs() {
+      const count = this.$store.state.userInfo.count
+      return this.computeFavs(count - 1)
+    }
+  },
+  data () {
     return {
       isShowExplain: false,
-      isShowList: true
+      isShowList: false,
+      isSign: this.$store.state.userInfo.isSign
     }
   },
   methods: {
-    close() {
+    close () {
       this.isShowExplain = false
       this.isShowList = false
     },
-    sign() {
+    _sign () {
+      if (this.isSign) {
+        return
+      }
       if (this.$store.state.isLogin) {
-        console.log('一登陆')
+        sign().then((res) => {
+          if (res.code === 10000) {
+            this.$store.state.userInfo.count = res.data.count
+            this.$store.state.userInfo.favs = res.data.favs
+            this.$store.state.userInfo.isSign = true
+            localStorage.setItem('userInfo', JSON.stringify(this.$store.state.userInfo))
+          } else {
+            this.$alert(res.message)
+          }
+        }).catch((error) => {
+          this.$alert(error)
+        })
       } else {
         this.$router.push({ name: 'login' })
       }
+    },
+    computeFavs(count) {
+      let favs
+      if (count < 5) {
+        favs = 5
+      } else if (count >= 5 && count < 15) {
+        favs = 10
+      } else if (count >= 15 && count < 30) {
+        favs = 15
+      } else if (count >= 30 && count < 100) {
+        favs = 20
+      } else if (count >= 100 && count < 365) {
+        favs = 30
+      } else {
+        favs = 50
+      }
+      return favs
     }
   }
 }
@@ -106,14 +173,18 @@ export default {
   max-width: 400px;
   max-height: 600px;
   position: fixed;
-  top:0;right:0;bottom:0;left:0;margin:auto;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  margin: auto;
   z-index: 3000;
   background-color: #fff;
   border-radius: 10px;
   overflow: hidden;
 
   &.active {
-    animation: show .3s ease;
+    animation: show 0.3s ease;
   }
 
   .title {
