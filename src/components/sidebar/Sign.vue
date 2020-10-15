@@ -10,7 +10,7 @@
         <li @click="isShowList = true"
             class="selected">活跃榜</li>
       </ul>
-      <p>已连续签到<span>{{ count }}</span>天</p>
+      <p v-show="isLogin && isSign">已连续签到<span>{{ count }}</span>天</p>
     </div>
     <div class="sign">
       <template v-if="!isSign">
@@ -32,7 +32,9 @@
 </template>
 
 <script>
-import { sign } from '@/api/sign'
+import moment from 'moment'
+
+import { sign } from '@/api/user'
 
 import SignExplain from './common/SignExplain'
 import SignList from './common/SignList'
@@ -68,12 +70,25 @@ export default {
         return this.$store.state.userInfo.isSign
       }
       return false
+    },
+    isLogin() {
+      return this.$store.state.isLogin
     }
   },
   data () {
     return {
       isShowExplain: false,
       isShowList: false
+    }
+  },
+  mounted() {
+    const lastSign = this.$store.state.userInfo.lastSign
+    const isSign = this.$store.state.userInfo.isSign
+    const diff = moment(moment().format('YYYY-MM-DD')).diff(moment(lastSign), 'day')
+    if (diff > 0 && isSign) {
+      this.$store.state.userInfo.isSign = false
+    } else {
+      this.$store.state.userInfo.isSign = isSign
     }
   },
   methods: {
@@ -92,6 +107,7 @@ export default {
             this.$store.state.userInfo.count = res.data.count
             this.$store.state.userInfo.favs = res.data.favs
             this.$store.state.userInfo.isSign = true
+            this.$store.state.userInfo.lastSign = res.data.lastSign
             localStorage.setItem('userInfo', JSON.stringify(this.$store.state.userInfo))
             this.$pop('签到成功')
           } else {

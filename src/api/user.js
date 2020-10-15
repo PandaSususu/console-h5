@@ -13,6 +13,15 @@ const sign = async () => {
   return axios.get('/user/sign', { headers })
 }
 
+/**
+ * 修改用户基本信息
+ * @param {*}
+ */
+const updateInfo = async (option) => {
+  return axios.post('/user/basic', option)
+}
+
 export {
-  sign
+  sign,
+  updateInfo
 }

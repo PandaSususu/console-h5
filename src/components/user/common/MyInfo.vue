@@ -5,7 +5,7 @@
         <label class="layui-form-label">邮箱</label>
         <validation-provider rules="required|email" v-slot="{ errors }">
           <div class="layui-input-inline">
-            <input type="text" name="email" placeholder="请输入邮箱" autocomplete="off" class="layui-input" v-model.trim="email" />
+            <input type="text" name="email" v-model="email" placeholder="请输入邮箱" autocomplete="off" class="layui-input" v-model.trim="email" />
           </div>
           <div class="layui-form-mid layui-word-aux">
             <span v-if="errors[0]">{{ errors[0] }}</span>
@@ -22,11 +22,26 @@
           <div class="layui-form-mid layui-word-aux">{{ errors[0] }}</div>
         </validation-provider>
       </div>
+      <div class="layui-form-item gender">
+        <label class="layui-form-label">性别</label>
+        <div class="layui-input-inline">
+          <label for="gender0" class="fly-margin-right">
+          <input type="radio" id="gender0" name="sex" value="0" v-model="gender" title="男">
+          <i class="layui-icon layui-icon-circle" :class="{ 'layui-icon-radio': gender === '0' }"></i>
+          男
+        </label>
+        <label for="gender1">
+          <input type="radio" id="gender1" name="sex" value="1" v-model="gender" title="女">
+          <i class="layui-icon layui-icon-circle" :class="{ 'layui-icon-radio': gender === '1' }"></i>
+          女
+        </label>
+        </div>
+      </div>
       <div class="layui-form-item">
         <label class="layui-form-label">城市</label>
-        <validation-provider rules="required|max:8|min:4" v-slot="{ errors }">
+        <validation-provider v-slot="{ errors }">
           <div class="layui-input-inline">
-            <input type="text" name="name" v-model="name" placeholder="请输入用户名" autocomplete="off" class="layui-input" />
+            <input type="text" name="location" v-model="location" placeholder="请输入用户名" autocomplete="off" class="layui-input" />
           </div>
           <div class="layui-form-mid layui-word-aux">{{ errors[0] }}</div>
         </validation-provider>
@@ -35,7 +50,7 @@
       <div class="layui-form-item layui-form-text">
         <label class="layui-form-label">个性签名</label>
         <div class="layui-input-block">
-          <textarea name="desc" placeholder="说一下你的心情吧" class="layui-textarea"></textarea>
+          <textarea name="regmark" placeholder="说一下你的心情吧" v-model="regmark" class="layui-textarea"></textarea>
         </div>
       </div>
 
@@ -57,8 +72,11 @@ export default {
   },
   data() {
     return {
-      email: '',
-      name: ''
+      email: this.$store.state.userInfo.email,
+      name: this.$store.state.userInfo.name,
+      location: this.$store.state.userInfo.location,
+      gender: this.$store.state.userInfo.gender,
+      regmark: this.$store.state.userInfo.regmark
     }
   },
   methods: {
@@ -70,7 +88,9 @@ export default {
       console.log('submit')
     }
   },
-  mounted() {}
+  mounted() {
+    console.log(this.$store.state.userInfo)
+  }
 }
 </script>
 <style lang="scss" scoped>
@@ -88,5 +108,18 @@ export default {
 .verification:hover {
   text-decoration: underline;
   cursor: pointer;
+}
+
+.gender {
+  display: flex;
+  align-items: center;
+
+  > label {
+    margin-right: 10px;
+  }
+
+  .layui-icon-radio {
+    color: #009688;
+  }
 }
 </style>

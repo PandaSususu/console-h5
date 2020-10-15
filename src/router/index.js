@@ -26,6 +26,7 @@ const ModifyPassword = () => import(/* webpackChunkName: 'modifyPassword' */ '..
 const PicUpload = () => import(/* webpackChunkName: 'picUpload' */ '../components/user/common/PicUpload.vue')
 const MyPost = () => import(/* webpackChunkName: 'myPost' */ '../components/user/common/MyPost.vue')
 const MyCollection = () => import(/* webpackChunkName: 'myCollection' */ '../components/user/common/MyCollection.vue')
+const NoFount = () => import(/* webpackChunkName: 'noFount' */ '../views/NoFount.vue')
 
 const routes = [
   {
@@ -135,6 +136,14 @@ const routes = [
     name: 'user',
     component: User,
     props: true
+  },
+  {
+    path: '/404',
+    component: NoFount
+  },
+  {
+    path: '*',
+    redirect: '/404'
   }
 ]
 
