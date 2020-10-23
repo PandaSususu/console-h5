@@ -64,6 +64,8 @@
 <script>
 import { ValidationProvider, ValidationObserver } from 'vee-validate'
 
+import { updateInfo } from '@/api/user'
+
 export default {
   name: 'myinfo',
   components: {
@@ -85,7 +87,20 @@ export default {
       if (!isValid) {
         return false
       }
-      console.log('submit')
+      const option = {
+        email: this.email,
+        name: this.name,
+        location: this.location,
+        gender: this.gender,
+        regmark: this.regmark
+      }
+      updateInfo(option).then((res) => {
+        if (res.code === 10000) {
+          console.log(res)
+        }
+      }).catch((error) => {
+        this.$pop(error, 'shake')
+      })
     }
   },
   mounted() {
