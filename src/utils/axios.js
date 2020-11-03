@@ -1,6 +1,8 @@
 import axios from 'axios'
 
 import errorHandle from './errorHandle'
+import store from '../store'
+import baseUrlConfig from '../config'
 
 const CancelToken = axios.CancelToken
 
@@ -30,10 +32,18 @@ class HttpRequest {
     delete this.pending[key]
   }
 
-  // 设定拦截器
+  // 设定请求拦截器
   interceptors(instance) {
     instance.interceptors.request.use((config) => {
       console.log('请求~~~>' + config.url + '到~~~>' + config.baseUrl)
+      const token = store.state.token
+      let isPublic = false
+      baseUrlConfig.publicBaseUrl.map((path) => {
+        isPublic = isPublic || path.test(config.url)
+      })
+      if (!isPublic && token) {
+        config.headers.Authorization = 'Bearer ' + token
+      }
       const key = config.url + '&' + config.method
       this.removePending(key, true)
       config.cancelToken = new CancelToken((c) => {
@@ -45,6 +55,7 @@ class HttpRequest {
       return Promise.reject(error)
     })
 
+    // 设定响应拦截器
     instance.interceptors.response.use((res) => {
       const key = res.config.url + '&' + res.config.method
       this.removePending(key)

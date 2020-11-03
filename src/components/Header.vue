@@ -73,7 +73,7 @@ export default {
     quitAccount() {
       this.$confirm('你确定要退出当前登录吗？', () => {
         this.loginOut()
-        // this.$router.push({ name: 'index' })
+        this.$router.push({ name: 'index' }, () => {})
       })
     }
   },

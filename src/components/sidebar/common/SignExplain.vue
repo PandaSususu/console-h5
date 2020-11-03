@@ -14,36 +14,36 @@
               <col width="200" />
               <col />
             </colgroup>
-            <thead>
-              <tr class="text-center">
-                <th class="text-center">连续签到的天数</th>
+            <thead class="text-center">
+              <tr>
+                <th>连续签到的天数</th>
                 <th>每天可获积分</th>
               </tr>
             </thead>
             <tbody>
               <tr>
                 <td class="text-center">＜5</td>
-                <td class="text-centen">5</td>
+                <td class="text-center">5</td>
               </tr>
                <tr>
                 <td class="text-center">≥5</td>
-                <td class="text-centen">10</td>
+                <td class="text-center">10</td>
               </tr>
                <tr>
                 <td class="text-center">≥15</td>
-                <td class="text-centen">15</td>
+                <td class="text-center">15</td>
               </tr>
                <tr>
                 <td class="text-center">≥30</td>
-                <td class="text-centen">20</td>
+                <td class="text-center">20</td>
               </tr>
               <tr>
                 <td class="text-center">≥100</td>
-                <td class="text-centen">30</td>
+                <td class="text-center">30</td>
               </tr>
                <tr>
                 <td class="text-center">≥365</td>
-                <td class="text-centen">50</td>
+                <td class="text-center">50</td>
               </tr>
             </tbody>
           </table>
@@ -79,6 +79,9 @@ export default {
 <style lang="scss" scoped>
 .conter {
   padding: 0 20px;
+}
+.layui-table th {
+  text-align: center;
 }
 .tips {
       line-height: 40px;
