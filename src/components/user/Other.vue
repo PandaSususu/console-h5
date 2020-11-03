@@ -1,10 +1,10 @@
 <template>
-  <div>footer</div>
+  <div>Other</div>
 </template>
 
 <script>
 export default {
-  name: 'bottom-footer',
+  name: 'user-other',
   data() {
     return {}
   },

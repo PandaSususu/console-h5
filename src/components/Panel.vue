@@ -2,16 +2,14 @@
   <div class="panel">
     <div class="layui-container">
       <ul class="layui-clear">
-        <li class="layui-hide-xs"><a href="">首页</a></li>
-        <li><a href="">提问</a></li>
-        <li><a href="">分享</a></li>
-        <li><a href="">讨论</a></li>
-        <li><a href="">建议</a></li>
-        <li><a href="">公告</a></li>
-        <li><a href="">动态</a></li>
+        <router-link v-for="(item, index) in navList" :key="'nav' + index" tag="li" :to="item.path">
+          <a href="#">{{ item.name }}</a>
+        </router-link>
         <li class="layui-hide-xs"><span class="line"></span></li>
-        <li class="layui-hide-xs"><a href="">我发表的帖</a></li>
-        <li class="layui-hide-xs"><a href="">我收藏的帖</a></li>
+        <template v-if="isLogin">
+          <li class="layui-hide-xs"><a href="">我发表的帖</a></li>
+          <li class="layui-hide-xs"><a href="">我收藏的帖</a></li>
+        </template>
       </ul>
       <div class="post layui-hide-xs">
         <span class="layui-icon layui-icon-search"></span>
@@ -23,7 +21,42 @@
 
 <script>
 export default {
-  name: 'panel'
+  name: 'panel',
+  data() {
+    return {
+      navList: [
+        {
+          name: '首页',
+          path: '/'
+        },
+        {
+          name: '提问',
+          path: '/index/ask'
+        },
+        {
+          name: '分享',
+          path: '/index/share'
+        },
+        {
+          name: '讨论',
+          path: '/index/discuss'
+        },
+        {
+          name: '建议',
+          path: '/index/advise'
+        },
+        {
+          name: '公告',
+          path: '/index/notice'
+        },
+        {
+          name: '动态',
+          path: '/index/logs'
+        }
+      ],
+      isLogin: this.$store.state.isLogin
+    }
+  }
 }
 </script>
 
@@ -60,6 +93,9 @@ export default {
         background-color: #e2e2e2;
         vertical-align: middle;
       }
+      a:hover {
+        color: #009688;
+      }
     }
   }
 
@@ -76,9 +112,13 @@ export default {
       cursor: pointer;
 
       &:hover {
-        color: #22DD92;
+        color: #22dd92;
       }
     }
   }
+}
+
+.layui-this a {
+  color: #009688;
 }
 </style>

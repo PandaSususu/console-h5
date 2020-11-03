@@ -19,8 +19,13 @@ export default {
 </script>
 
 <style lang="scss">
+@import "./assets/css/global.css";
+
 #app {
   background-color: #f2f2f2;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 .ui-panel {
   background-color: #fff;
@@ -33,5 +38,9 @@ export default {
     padding: 10px 0;
     border-bottom: 1px solid #f2f2f2;
   }
+}
+
+.layui-word-aux {
+  color: red !important ;
 }
 </style>

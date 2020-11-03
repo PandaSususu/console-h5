@@ -100,12 +100,11 @@ export default {
         code: this.code,
         sid: this.$store.state.sid
       }).then((res) => {
-        console.log(res)
         if (res.code === 10000) {
+          this.$pop('注册成功')
           this.$router.push('/login')
         } else if (res.code === 9001) {
           this.$refs.observer.setErrors(res.message)
-          console.log(res.message)
         }
       })
     }
@@ -147,7 +146,7 @@ export default {
   .svg {
     position: relative;
     padding: 0 !important;
-    height: 38px;
+    height: 60px;
     clear: both;
     margin-left: 110px;
   }
@@ -158,10 +157,6 @@ export default {
   &:hover {
     color: #009688;
   }
-}
-
-.layui-word-aux {
-  color: red !important ;
 }
 
 .submit {

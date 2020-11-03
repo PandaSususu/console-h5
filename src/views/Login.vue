@@ -88,7 +88,10 @@ export default {
         sid: this.$store.state.sid
       }).then(res => {
         if (res.code === 10000) {
-          this.$router.push('/')
+          this.$pop('登录成功')
+          this.$store.commit('setUserInfo', res.data)
+          this.$store.commit('setLoginStatus', true)
+          this.$router.push({ name: 'index' })
         } else if (res.code === 9003) {
           this.$refs.codefield.setErrors([res.message])
         } else {
@@ -143,7 +146,7 @@ export default {
   .svg {
     position: relative;
     padding: 0 !important;
-    height: 38px;
+    height: 60px;
     clear: both;
     margin-left: 110px;
   }
@@ -154,10 +157,6 @@ export default {
   &:hover {
     color: #009688;
   }
-}
-
-.layui-word-aux {
-  color: red !important ;
 }
 
 .submit {

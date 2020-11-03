@@ -1,0 +1,43 @@
+body, html {
+  height: 100%;
+}
+
+.fly-margin-top {
+  margin-top: 10px;
+}
+
+.fly-margin-left {
+  margin-left: 10px;
+}
+
+.fly-margin-right {
+  margin-right: 10px;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.mask {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, .4);
+  z-index: 2000;
+}
+
+.selected {
+  color: #1ABDE6;
+}
+
+@keyframes show {
+  0% {
+    opacity: 0;
+    transform: scale(.5);
+  } 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

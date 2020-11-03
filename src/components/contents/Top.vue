@@ -1,22 +1,7 @@
 <template>
   <div>
     <div class="ui-panel">
-      <div class="nav">
-        <ul>
-          <li @click="search()">综合</li>
-          <li><span class="line"></span></li>
-          <li @click="search(0)">未结</li>
-          <li><span class="line"></span></li>
-          <li @click="search(1)">已结</li>
-          <li><span class="line"></span></li>
-          <li @click="search(2)">精华</li>
-        </ul>
-        <ul>
-          <li @click="search(3)">按最新</li>
-          <li><span class="line"></span></li>
-          <li @click="search(4)">按热议</li>
-        </ul>
-      </div>
+      <h3 class="title">置顶</h3>
       <ui-listitem :lists="lists_" @loadMore="loadMore()" :isEnd="isEnd_"></ui-listitem>
     </div>
   </div>
@@ -27,34 +12,22 @@ import { getList } from '@/api/index'
 import ListItem from './ListItem'
 
 export default {
-  name: 'list',
+  name: 'top',
   components: {
     'ui-listitem': ListItem
   },
   data() {
     return {
       lists_: [],
-      isTop: '0',
+      isTop: '1',
       page: 0,
       limit: 19,
       catalog: '',
-      sort: '',
+      sort: 'created',
       status: '',
       tag: '',
       isEnd_: false,
-      isLoad: false,
-      current: undefined
-    }
-  },
-  watch: {
-    current(newval, oldval) {
-      this.init()
-      this._getList()
-    },
-    '$route'(newval, oldval) {
-      this.catalog = newval.params.catalog
-      this.init()
-      this._getList()
+      isLoad: false
     }
   },
   methods: {
@@ -82,7 +55,7 @@ export default {
           }
         }
       }).catch((error) => {
-        this.$alert(error.message)
+        this.$alert(error)
         this.isLoad = false
       })
     },
@@ -90,40 +63,6 @@ export default {
       if (this.isLoad) return
       this.page++
       this._getList()
-    },
-    search(val) {
-      if (this.current === val) {
-        return
-      }
-      this.current = val
-      switch (val) {
-        case 0:
-          this.status = '0'
-          this.tag = ''
-          break
-        case 1:
-          this.status = '1'
-          this.tag = ''
-          break
-        case 2:
-          this.status = ''
-          this.tag = '精华'
-          break
-        case 3:
-          this.sort = 'created'
-          break
-        case 4:
-          this.sort = 'answer'
-          break
-        default:
-          this.tag = ''
-          this.status = ''
-          break
-      }
-    },
-    init() {
-      this.lists_ = []
-      this.isEnd_ = false
     }
   },
   mounted() {
@@ -133,47 +72,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.tag {
-  display: inline-block;
-  font-size: 12px;
-  padding: 1px 2px;
-  border-radius: 4px;
-}
-
-.nav {
-  border-bottom: 1px solid #f2f2f2;
-  display: flex;
-  justify-content: space-between;
-  ul {
-    line-height: 40px;
-    display: flex;
-    li {
-      cursor: pointer;
-      padding: 0;
-      height: 40px;
-
-      .line {
-        display: inline-block;
-        width: 2px;
-        height: 10px;
-        background-color: #ddd;
-        margin: 0 20px 0 10px;
-        vertical-align: middle;
-      }
-    }
-  }
-
-  p {
-    float: right;
-    line-height: 40px;
-    font-size: 12px;
-    color: #999;
-    span {
-      color: #e6941a;
-    }
-  }
-}
-
 li {
   overflow: hidden;
   padding: 10px 0;
@@ -203,7 +101,11 @@ li {
         white-space: nowrap;
         width: 100%;
         span {
+          display: inline-block;
           border: 1px solid #2bd5b3;
+          font-size: 12px;
+          padding: 1px 2px;
+          border-radius: 4px;
           color: #2bd5b3;
           margin-right: 4px;
         }
@@ -214,14 +116,20 @@ li {
         color: #999;
         display: flex;
         align-items: center;
-        justify-content: space-between;
+        justify-content: space-around;
         width: 300px;
 
         .user {
           display: flex;
           align-items: center;
           span {
-            background-color: #d54d2b;
+            display: inline-block;
+            font-size: 12px;
+            padding: 1px 2px;
+            border-radius: 4px;
+            color: #2bd5b3;
+            margin-right: 4px;
+            background-color: #dd4822;
             color: #fff;
             margin-left: 4px;
           }
@@ -247,28 +155,19 @@ li {
 
         .end {
           background-color: #4db38a;
+          padding: 3px 3px;
           color: #fff;
           font-size: 12px;
+          border-radius: 4px;
         }
       }
     }
-    .label {
+    .count {
       display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      align-items: center;
+      align-items: flex-end;
 
-      > span {
-        color: #fff;
-        background-color: #e6941a;
-      }
-      .count {
-        display: flex;
-        align-items: flex-end;
-
-        span {
-          margin-right: 4px;
-        }
+      span {
+        margin-right: 6px;
       }
     }
   }
