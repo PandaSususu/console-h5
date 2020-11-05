@@ -27,6 +27,7 @@ const PicUpload = () => import(/* webpackChunkName: 'picUpload' */ '../component
 const MyPost = () => import(/* webpackChunkName: 'myPost' */ '../components/user/common/MyPost.vue')
 const MyCollection = () => import(/* webpackChunkName: 'myCollection' */ '../components/user/common/MyCollection.vue')
 const NoFount = () => import(/* webpackChunkName: 'noFount' */ '../views/NoFount.vue')
+const Confirm = () => import(/* webpackChunkName: 'confirm' */ '../views/Confirm.vue')
 
 const routes = [
   {
@@ -61,6 +62,11 @@ const routes = [
         next('/login')
       }
     }
+  },
+  {
+    path: '/confirm',
+    name: 'confirm',
+    component: Confirm
   },
   {
     path: '/forget',

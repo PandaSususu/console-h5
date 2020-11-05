@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import { getCode, sendEmail } from '@/api/login'
+import { getCode, forget } from '@/api/login'
 import { ValidationProvider, ValidationObserver } from 'vee-validate'
 
 export default {
@@ -62,9 +62,9 @@ export default {
       if (!isValid) {
         return false
       }
-      sendEmail({ email: this.email }).then((res) => {
+      forget({ email: this.email }).then((res) => {
         if (res.code === 200) {
-          alert('邮箱发送成功')
+          this.$pop('邮箱发送成功')
         }
       })
     }
