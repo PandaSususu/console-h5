@@ -96,15 +96,20 @@ export default {
       }
       updateInfo(option).then((res) => {
         if (res.code === 10000) {
-          console.log(res)
+          for (const key in res.data) {
+            this.$store.state.userInfo[key] = res.data[key]
+          }
+          localStorage.setItem('userInfo', JSON.stringify(this.$store.state.userInfo))
+          this.$pop('修改成功')
+        } else if (res.code === 10001) {
+          this.$alert(res.message)
+        } else {
+          this.$pop(res.message, 'shake')
         }
       }).catch((error) => {
         this.$pop(error, 'shake')
       })
     }
-  },
-  mounted() {
-    console.log(this.$store.state.userInfo)
   }
 }
 </script>

@@ -4,8 +4,8 @@ import axios from '@/utils/request'
  * 修改密码发送邮箱验证接口
  * @param {*} emailInfo 邮箱信息
  */
-const sendEmail = async (emailInfo) => {
-  return axios.post('/login/sendemail', emailInfo)
+const forget = async (emailInfo) => {
+  return axios.post('/login/forget', emailInfo)
 }
 
 /**
@@ -36,4 +36,4 @@ const reg = async (regInfo) => {
   return axios.post('/login/reg', regInfo)
 }
 
-export { sendEmail, getCode, login, reg }
+export { forget, getCode, login, reg }
