@@ -52,7 +52,7 @@ export default {
   methods: {
     _getCode() {
       getCode(this.$store.state.sid).then((res) => {
-        if (res.code === 200) {
+        if (res.code === 10000) {
           this.codeInfo = res.data
         }
       })
@@ -62,9 +62,17 @@ export default {
       if (!isValid) {
         return false
       }
-      forget({ email: this.email }).then((res) => {
-        if (res.code === 200) {
-          this.$pop('邮箱发送成功')
+      forget({
+        email: this.email,
+        code: this.code,
+        sid: this.$store.state.sid
+      }).then((res) => {
+        if (res.message === 9000) {
+          this.$pop(res.message, 'shake')
+        } else if (res.message === 9003) {
+          this.$refs.codefield.setErrors([res.message])
+        } else {
+          this.$alert(res.message)
         }
       })
     }

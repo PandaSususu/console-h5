@@ -28,6 +28,7 @@ const MyPost = () => import(/* webpackChunkName: 'myPost' */ '../components/user
 const MyCollection = () => import(/* webpackChunkName: 'myCollection' */ '../components/user/common/MyCollection.vue')
 const NoFount = () => import(/* webpackChunkName: 'noFount' */ '../views/NoFount.vue')
 const Confirm = () => import(/* webpackChunkName: 'confirm' */ '../views/Confirm.vue')
+const Reset = () => import(/* webpackChunkName: 'reset' */ '../views/Reset.vue')
 
 const routes = [
   {
@@ -69,9 +70,21 @@ const routes = [
     component: Confirm
   },
   {
+    path: '/reset',
+    name: 'reset',
+    component: Reset
+  },
+  {
     path: '/forget',
     name: 'forget',
-    component: Forget
+    component: Forget,
+    beforeEnter: (to, from, next) => {
+      if (from.name === 'login') {
+        next()
+      } else {
+        next('/login')
+      }
+    }
   },
   {
     path: '/center',
@@ -159,13 +172,15 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  const userInfo = localStorage.getItem('userInfo')
-  const token = localStorage.getItem('token')
-  if (userInfo && token) {
-    const payload = jwt.decode(token)
-    if (moment().isBefore(moment(payload.exp * 1000))) {
-      store.commit('setUserInfo', { userJson: JSON.parse(userInfo), token: token })
-      store.commit('setLoginStatus', true)
+  if (!store.state.userInfo && !store.state.token) {
+    const userInfo = localStorage.getItem('userInfo')
+    const token = localStorage.getItem('token')
+    if (userInfo && token) {
+      const payload = jwt.decode(token)
+      if (moment().isBefore(moment(payload.exp * 1000))) {
+        store.commit('setUserInfo', { userJson: JSON.parse(userInfo), token })
+        store.commit('setLoginStatus', true)
+      }
     }
   }
   if (to.matched.some(record => record.meta.requiresAuth)) {

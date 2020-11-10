@@ -1,7 +1,9 @@
 <template>
   <div id="app">
-    <vue-header></vue-header>
-    <router-view></router-view>
+    <div>
+      <vue-header></vue-header>
+      <router-view></router-view>
+    </div>
     <vue-footer></vue-footer>
   </div>
 </template>
@@ -22,10 +24,14 @@ export default {
 @import "./assets/css/global.css";
 
 #app {
-  background-color: #f2f2f2;
   height: 100%;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
+}
+#app >div:first-child {
+  background-color: #f2f2f2;
+  flex: 1;
 }
 .ui-panel {
   background-color: #fff;

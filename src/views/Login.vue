@@ -71,7 +71,7 @@ export default {
   methods: {
     _getCode() {
       getCode(this.$store.state.sid).then(res => {
-        if (res.code === 200) {
+        if (res.code === 10000) {
           this.codeInfo = res.data
         }
       })
@@ -101,14 +101,8 @@ export default {
     }
   },
   mounted() {
-    window.vue = this
-    let sid = ''
-    if (localStorage.getItem('sid')) {
-      sid = localStorage.getItem('sid')
-    } else {
-      sid = uuid()
-      localStorage.setItem('sid', sid)
-    }
+    const sid = localStorage.getItem('sid') ? localStorage.getItem('sid') : uuid()
+    localStorage.setItem('sid', sid)
     this.$store.commit('setSid', sid)
     this._getCode()
   }

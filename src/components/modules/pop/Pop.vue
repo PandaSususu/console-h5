@@ -27,7 +27,7 @@ export default {
       if (newVal !== oldVal && newVal) {
         setTimeout(() => {
           this.isShow = false
-        }, 2000)
+        }, 3000)
       }
     }
   }

@@ -37,7 +37,7 @@
           <label class="layui-form-label">确认密码</label>
           <validation-provider rules="required|confirmed:confirmation" v-slot="{ errors }">
             <div class="layui-input-inline">
-              <input type="password" name="confirmPassword" v-model="confirmPassword" placeholder="请输入密码" autocomplete="off" class="layui-input" />
+              <input type="password" name="confirmPassword" v-model="confirmPassword" placeholder="请输入确认密码" autocomplete="off" class="layui-input" />
             </div>
             <div class="layui-form-mid layui-word-aux">{{ errors[0] }}</div>
           </validation-provider>
@@ -83,7 +83,7 @@ export default {
   methods: {
     _getCode() {
       getCode(this.$store.state.sid).then(res => {
-        if (res.code === 200) {
+        if (res.code === 10000) {
           this.codeInfo = res.data
         }
       })

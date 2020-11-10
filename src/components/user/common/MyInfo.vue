@@ -101,10 +101,8 @@ export default {
           }
           localStorage.setItem('userInfo', JSON.stringify(this.$store.state.userInfo))
           this.$pop('修改成功')
-        } else if (res.code === 10001) {
-          this.$alert(res.message)
         } else {
-          this.$pop(res.message, 'shake')
+          this.$alert(res.message)
         }
       }).catch((error) => {
         this.$pop(error, 'shake')
@@ -123,11 +121,6 @@ export default {
   .verification {
     color: #2b91d5;
   }
-}
-
-.verification:hover {
-  text-decoration: underline;
-  cursor: pointer;
 }
 
 .gender {

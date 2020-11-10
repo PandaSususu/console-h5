@@ -28,8 +28,9 @@ export default {
     submit() {
       updateEmail(this.queryObj).then((res) => {
         if (res.code === 10000) {
-          this.$pop(res.message)
           this.isSuccess = true
+          this.$store.state.userInfo.email = res.data.email
+          localStorage.setItem('userInfo', JSON.stringify(this.$store.state.userInfo))
           const countDown = setInterval(() => {
             this.countDownTime--
             if (this.countDownTime === 0) {
