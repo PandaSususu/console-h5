@@ -35,6 +35,9 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.ui-panel {
+  margin-bottom: 0;
+}
 .clear-message {
   margin: 20px 0;
 }

@@ -7,10 +7,19 @@
     <validation-observer ref="observer" v-slot="{ validate }">
       <form class="layui-form layui-form-pane" action>
         <div class="layui-form-item">
+          <label class="layui-form-label">旧密码</label>
+          <validation-provider ref="oldPassword" rules="required|max:16|min:6" vid="confirmation" v-slot="{ errors }">
+            <div class="layui-input-inline">
+              <input type="password" name="password" v-model="oldPassword" placeholder="请输入旧密码" autocomplete="off" class="layui-input" />
+            </div>
+            <div class="layui-form-mid layui-word-aux">{{ errors[0] }}</div>
+          </validation-provider>
+        </div>
+        <div class="layui-form-item">
           <label class="layui-form-label">新密码</label>
           <validation-provider rules="required|max:16|min:6" vid="confirmation" v-slot="{ errors }">
             <div class="layui-input-inline">
-              <input type="password" name="password" v-model="password" placeholder="请输入密码" autocomplete="off" class="layui-input" />
+              <input type="password" name="password" v-model="newPassword" placeholder="请输入新密码" autocomplete="off" class="layui-input" />
             </div>
             <div class="layui-form-mid layui-word-aux">{{ errors[0] }}</div>
           </validation-provider>
@@ -44,7 +53,8 @@ export default {
   },
   data() {
     return {
-      password: '',
+      oldPassword: '',
+      newPassword: '',
       confirmPassword: '',
       key: ''
     }
@@ -56,7 +66,8 @@ export default {
         return false
       }
       reset({
-        password: this.password,
+        oldPassword: this.oldPassword,
+        newPassword: this.newPassword,
         key: this.key
       }).then((res) => {
         if (res.code === 10000) {
@@ -64,6 +75,8 @@ export default {
           setTimeout(() => {
             this.$router.push({ name: 'login' })
           }, 3000)
+        } else if (res.code === 9001) {
+          this.$refs.oldPassword.setErrors([res.message])
         } else {
           this.$alert(res.message)
         }

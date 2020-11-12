@@ -32,6 +32,8 @@ export default {
 #app >div:first-child {
   background-color: #f2f2f2;
   flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 .ui-panel {
   background-color: #fff;

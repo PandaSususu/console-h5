@@ -113,6 +113,10 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.ui-panel {
+  margin-bottom: 0;
+  box-shadow: none;
+}
 .user-center {
   background-color: #f2f2f2;
   display: flex;

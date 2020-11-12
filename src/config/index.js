@@ -1,7 +1,4 @@
 export default {
-  baseUrl: {
-    dev: 'http://localhost:3000',
-    pro: 'http://8.129.24.7:3000'
-  },
+  baseUrl: process.env.NODE_ENV === 'production' ? 'http://8.129.24.7:3000' : 'http://localhost:36742',
   publicBaseUrl: [/^\/public/, /^\/login/]
 }

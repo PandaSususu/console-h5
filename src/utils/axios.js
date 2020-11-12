@@ -2,7 +2,7 @@ import axios from 'axios'
 
 import errorHandle from './errorHandle'
 import store from '../store'
-import baseUrlConfig from '../config'
+import prefixConfig from '../config'
 
 const CancelToken = axios.CancelToken
 
@@ -38,7 +38,7 @@ class HttpRequest {
       console.log('请求~~~>' + config.url + '到~~~>' + config.baseUrl)
       const token = store.state.token
       let isPublic = false
-      baseUrlConfig.publicBaseUrl.map((path) => {
+      prefixConfig.publicBaseUrl.map((path) => {
         isPublic = isPublic || path.test(config.url)
       })
       if (!isPublic && token) {
