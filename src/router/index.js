@@ -29,6 +29,7 @@ const MyCollection = () => import(/* webpackChunkName: 'myCollection' */ '../com
 const NoFount = () => import(/* webpackChunkName: 'noFount' */ '../views/NoFount.vue')
 const Confirm = () => import(/* webpackChunkName: 'confirm' */ '../views/Confirm.vue')
 const Reset = () => import(/* webpackChunkName: 'reset' */ '../views/Reset.vue')
+const Add = () => import(/* webpackChunkName: 'add' */ '../components/contents/Add.vue')
 
 const routes = [
   {
@@ -85,6 +86,12 @@ const routes = [
         next('/login')
       }
     }
+  },
+  {
+    path: '/add',
+    name: 'add',
+    component: Add,
+    meta: { requiresAuth: true }
   },
   {
     path: '/center',

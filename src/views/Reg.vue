@@ -62,32 +62,22 @@
 </template>
 
 <script>
-import { getCode, reg } from '@/api/login'
-import { ValidationProvider, ValidationObserver } from 'vee-validate'
+import { reg } from '@/api/login'
+import code from '@/mixin/code'
 
 export default {
-  components: {
-    ValidationProvider,
-    ValidationObserver
-  },
+  name: 'reg',
+  components: {},
+  mixins: [code],
   data() {
     return {
-      codeInfo: {},
       email: '',
       name: '',
       password: '',
-      confirmPassword: '',
-      code: ''
+      confirmPassword: ''
     }
   },
   methods: {
-    _getCode() {
-      getCode(this.$store.state.sid).then(res => {
-        if (res.code === 10000) {
-          this.codeInfo = res.data
-        }
-      })
-    },
     async submit() {
       const isValid = await this.$refs.observer.validate()
       if (!isValid) {
@@ -109,9 +99,7 @@ export default {
       })
     }
   },
-  mounted() {
-    this._getCode()
-  }
+  mounted() {}
 }
 </script>
 <style lang="scss" scoped>

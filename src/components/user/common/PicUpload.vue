@@ -26,8 +26,8 @@ export default {
   methods: {
     upload(e) {
       const files = e.target.files
-      const formData = new FormData()
       if (files.length > 0) {
+        const formData = new FormData()
         formData.append('file', files[0])
         this.formData = formData
       }

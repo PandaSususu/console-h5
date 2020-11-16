@@ -13,7 +13,7 @@
       </ul>
       <div class="post layui-hide-xs">
         <span class="layui-icon layui-icon-search"></span>
-        <button class="layui-btn">发表新帖</button>
+        <router-link class="layui-btn" tag="button" :to="{ name: 'add' }">发表新帖</router-link>
       </div>
     </div>
   </div>
