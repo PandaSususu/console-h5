@@ -11,12 +11,13 @@ export default {
   data() {
     return {
       codeInfo: {},
-      code: ''
+      code: '',
+      sid: ''
     }
   },
   methods: {
     _getCode() {
-      getCode(this.$store.state.sid).then(res => {
+      getCode(this.sid).then(res => {
         if (res.code === 10000) {
           this.codeInfo = res.data
         }
@@ -24,9 +25,9 @@ export default {
     }
   },
   mounted() {
-    const sid = localStorage.getItem('sid') ? localStorage.getItem('sid') : uuid()
-    localStorage.setItem('sid', sid)
-    this.$store.commit('setSid', sid)
+    this.sid = localStorage.getItem('sid') ? localStorage.getItem('sid') : uuid()
+    localStorage.setItem('sid', this.sid)
+    this.$store.commit('setSid', this.sid)
     this._getCode()
   }
 }

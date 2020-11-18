@@ -6,11 +6,18 @@
         <form class="layui-form layui-form-pane upload">
           <div>
             <div class="layui-form-item image-link">
-              <label class="layui-form-label">链接</label>
+              <label class="layui-form-label">链接标题</label>
+              <div class="layui-input-block">
+                <input type="text" name="link" v-model="linkName" placeholder="请输入链接标题" autocomplete="off" class="layui-input" />
+              </div>
+            </div>
+            <div class="layui-form-item image-link">
+              <label class="layui-form-label">链接地址</label>
               <div class="layui-input-block">
                 <input type="text" name="link" v-model="link" placeholder="请输入合法的链接" autocomplete="off" class="layui-input" />
               </div>
             </div>
+            <p class="tips">如果不输入链接标题，则把链接地址作为链接标题</p>
           </div>
           <div>
             <button class="layui-btn layui-btn-primary" type="button" @click="cancel()">取消</button>
@@ -28,7 +35,8 @@ export default {
   props: ['isShow'],
   data() {
     return {
-      link: ''
+      link: '',
+      linkName: ''
     }
   },
   methods: {
@@ -37,8 +45,9 @@ export default {
         this.$pop('请输入合法的链接', 'shake')
         return false
       }
-      this.$emit('addEvent', this.link)
+      this.$emit('addEvent', { link: this.link, linkName: this.linkName })
       this.link = ''
+      this.linkName = ''
     },
     cancel() {
       this.$emit('closeEvent')
@@ -72,8 +81,18 @@ export default {
 
       > div:first-child {
         display: flex;
+        flex-direction: column;
         .image-link {
           width: 400px;
+        }
+
+        .layui-form-item:nth-child(2) {
+          margin-bottom: 8px;
+        }
+
+        .tips {
+          color: #999;
+          margin-bottom: 15px;
         }
       }
     }

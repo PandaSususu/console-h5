@@ -85,7 +85,7 @@ export default {
     const lastSign = this.$store.state.userInfo.lastSign
     const isSign = this.$store.state.userInfo.isSign
     console.log(this.$store.state.userInfo)
-    const diff = moment(moment().format('YYYY-MM-DD')).diff(moment(lastSign), 'day')
+    const diff = moment(moment().format('YYYY-MM-DD')).diff(moment(lastSign).format('YYYY-MM-DD'), 'day')
     if (diff > 0 && isSign) {
       this.$store.state.userInfo.isSign = false
     }

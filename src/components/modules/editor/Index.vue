@@ -21,7 +21,7 @@
           <span @click="lineBreak()">
             hr
           </span>
-          <span>
+          <span @click="choose('preview')">
             <i class="layui-icon layui-icon-chart-screen"></i>
           </span>
         </div>
@@ -33,6 +33,7 @@
     <ui-link :isShow="currentShow === 'link'" @addEvent="handleLink" @closeEvent="close()"></ui-link>
     <ui-quote :isShow="currentShow === 'quote'" @addEvent="handleQuote" @closeEvent="close()"></ui-quote>
     <ui-code :isShow="currentShow === 'code'" @addEvent="handleCode" @closeEvent="close()"></ui-code>
+    <ui-preview :isShow="currentShow === 'preview'" :content="content" @closeEvent="close()"></ui-preview>
   </div>
 </template>
 
@@ -42,6 +43,7 @@ import Image from './Image'
 import Link from './Link'
 import Quote from './Quote'
 import Code from './Code'
+import Preview from './Preview'
 
 export default {
   name: 'editor',
@@ -57,24 +59,27 @@ export default {
     'ui-image': Image,
     'ui-link': Link,
     'ui-quote': Quote,
-    'ui-code': Code
+    'ui-code': Code,
+    'ui-preview': Preview
+  },
+  updated() {
+    this.$emit('changeContent', this.content)
   },
   methods: {
     handleFace(face) {
-      const text = `表情${face} `
-      this.insert(text)
+      this.insert(`表情${face} `)
     },
     handleImage(url) {
-      this.insert(url)
+      this.insert(`图片[${url}] `)
     },
-    handleLink(link) {
-      this.insert(link)
+    handleLink(linkObj) {
+      this.insert(`链接(${linkObj.link})[${linkObj.linkName ? linkObj.linkName : linkObj.link}] `)
     },
     handleQuote(content) {
-      this.insert(content)
+      this.insert(`内容[${content}] `)
     },
     handleCode(code) {
-      this.insert(code)
+      this.insert(`代码[${code}] `)
     },
     lineBreak() {
       this.currentShow = 'hr'
@@ -106,7 +111,6 @@ export default {
     getCursor() {
       const element = this.$refs.edit
       this.cursor = element.selectionStart
-      console.log(this.cursor)
     }
   }
 }
