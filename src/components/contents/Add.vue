@@ -70,7 +70,7 @@
 
             <div class="layui-form-item captcha">
               <label class="layui-form-label">验证码</label>
-              <validation-provider rules="required|length:4" name="code" v-slot="{ errors }">
+              <validation-provider rules="required|length:4" ref="codefield" name="code" v-slot="{ errors }">
                 <div class="layui-input-inline">
                   <input type="text" name="code" v-model="code" placeholder="请输入验证码" autocomplete="off" class="layui-input" />
                 </div>
@@ -169,8 +169,18 @@ export default {
         fav: this.favs[this.favIndex],
         code: this.code,
         sid: this.sid
-      }).then((res) => {
+      }).then(res => {
         console.log(res)
+        if (res.code === 10000) {
+          this.$pop('恭喜你发帖成功')
+          setTimeout(() => {
+            this.$router.push({ name: 'index' })
+          }, 3000)
+        } else if (res.code === 9000) {
+          this.$refs.codefield.setErrors([res.message])
+        } else {
+          this.$alert(res.message)
+        }
       })
     }
   },
