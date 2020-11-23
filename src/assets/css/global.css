@@ -18,6 +18,13 @@ body, html {
   text-align: center;
 }
 
+.text-left {
+  text-align: left;
+}
+.text-right {
+  text-align: right;
+}
+
 .mask {
   position: fixed;
   width: 100%;
@@ -30,6 +37,10 @@ body, html {
 
 .selected {
   color: #1ABDE6;
+}
+
+.cursor {
+  cursor: pointer;
 }
 
 @keyframes show {

@@ -6,7 +6,7 @@
       </ul>
       <div class="layui-tab-content">
         <validation-observer ref="observer" v-slot="{ validate }">
-          <form class="layui-form layui-form-pane" action="">
+          <form class="layui-form layui-form-pane">
             <div class="layui-row layui-col-space20">
               <div class="layui-col-md3">
                 <label class="layui-form-label">所在专栏</label>
@@ -135,7 +135,7 @@ export default {
         },
         {
           text: '动态',
-          value: 'new'
+          value: 'news'
         }
       ],
       favs: [20, 30, 50, 60, 80],

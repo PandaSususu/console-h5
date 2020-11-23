@@ -30,6 +30,7 @@ const NoFount = () => import(/* webpackChunkName: 'noFount' */ '../views/NoFount
 const Confirm = () => import(/* webpackChunkName: 'confirm' */ '../views/Confirm.vue')
 const Reset = () => import(/* webpackChunkName: 'reset' */ '../views/Reset.vue')
 const Add = () => import(/* webpackChunkName: 'add' */ '../components/contents/Add.vue')
+const Detail = () => import(/* webpackChunkName: 'detail' */ '../components/contents/Detail.vue')
 
 const routes = [
   {
@@ -92,6 +93,11 @@ const routes = [
     name: 'add',
     component: Add,
     meta: { requiresAuth: true }
+  },
+  {
+    path: '/detail/:tid',
+    name: 'detail',
+    component: Detail
   },
   {
     path: '/center',

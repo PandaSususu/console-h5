@@ -15,8 +15,8 @@
     <div class="sign">
       <template v-if="!isSign">
         <button class="layui-btn layui-btn-danger"
-              @click="_sign()">今日签到</button>
-        <p>可获得<span>{{ avaFavs }}</span>积分</p>
+              @click="_sign()">立即签到</button>
+        <p v-if="this.$store.state.isLogin">可获得<span>{{ avaFavs }}</span>积分</p>
       </template>
       <template v-if="isSign">
         <button class="layui-btn layui-btn-disabled"
@@ -82,6 +82,7 @@ export default {
     }
   },
   mounted() {
+    if (!this.$store.state.userInfo) return
     const lastSign = this.$store.state.userInfo.lastSign
     const isSign = this.$store.state.userInfo.isSign
     console.log(this.$store.state.userInfo)

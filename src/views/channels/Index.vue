@@ -1,11 +1,11 @@
 <template>
   <div class="layui-container">
-    <div class="row">
-      <div>
+    <div class="layui-row layui-col-space10">
+      <div class="layui-col-md8">
         <ui-top></ui-top>
         <ui-list></ui-list>
       </div>
-      <div>
+      <div class="layui-col-md4">
         <ui-tips></ui-tips>
         <ui-sign></ui-sign>
         <ui-hotlist></ui-hotlist>
@@ -39,20 +39,4 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-.list {
-  margin-right: 10px;
-}
-
-.row {
-  display: flex;
-
-  > div:first-child {
-    flex: 6;
-  }
-  > div:last-child {
-    flex: 4;
-    margin-left: 10px;
-  }
-}
-</style>
+<style lang="scss" scoped></style>

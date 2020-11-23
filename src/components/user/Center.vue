@@ -169,6 +169,7 @@ export default {
 
   .shortcut {
     flex: 1;
+    margin-top: 10px;
 
     .quick {
       line-height: 40px;

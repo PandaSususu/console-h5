@@ -26,8 +26,17 @@ const updateEmail = async (option) => {
   return axios.get('/public/resetEmail?' + qs.stringify(option))
 }
 
+/**
+ * 获取用户帖子
+ * @param {*}
+ */
+const getUserPosts = async () => {
+  return axios.get('/user/list')
+}
+
 export {
   sign,
   updateInfo,
-  updateEmail
+  updateEmail,
+  getUserPosts
 }
