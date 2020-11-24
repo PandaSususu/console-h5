@@ -218,7 +218,8 @@ import Links from '@/components/sidebar/Links'
 import Editor from '@/components/modules/editor/Index'
 import code from '@/mixin/code'
 import Page from '@/components/modules/paging/Paging'
-import { getDetail } from '@/api/index'
+import { getDetail, getComments } from '@/api/index'
+import { postComments } from '@/api/user'
 import { escapeHtml } from '@/utils/escapeHtml'
 
 export default {
@@ -257,6 +258,10 @@ export default {
       this.content = val
     },
     async submit() {
+      if (!this.$store.state.isLogin) {
+        this.$pop('先登录才能发表评论哦', 'shake')
+        return
+      }
       const isValid = await this.$refs.observer.validate()
       if (!isValid) {
         return false
@@ -265,6 +270,22 @@ export default {
         this.$alert('评论内容不能为空')
         return false
       }
+      postComments({
+        tid: this.postInfo._id,
+        uid: this.$store.state.userInfo._id,
+        content: this.content,
+        sid: this.sid,
+        code: this.code
+      }).then((res) => {
+        if (res.code === 10000) {
+          this.$pop(res.message)
+          this.code = ''
+          this.content = ''
+          this._getCode()
+        } else if (res.code === 9000) {
+          this.$refs.codefield.setErrors([res.message])
+        }
+      })
     },
     handleChange(pageNumber) {
       this.current = pageNumber
@@ -276,6 +297,9 @@ export default {
       if (res.code === 10000) {
         this.postInfo = res.data
         this.postInfo.content = escapeHtml(this.postInfo.content)
+        getComments({ tid }).then((res) => {
+          console.log(res)
+        })
       } else {
         this.$alert(res.message)
       }

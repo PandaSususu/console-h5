@@ -25,6 +25,12 @@ const getDetail = async (tid) => {
 }
 
 /**
+ * 获取帖子评论列表
+ * @param {*}
+ */
+const getComments = async (tid) => axios.get('/public/post/comments?' + qs.stringify(tid))
+
+/**
  * 获取本周热议
  * @param {*}
  */
@@ -55,5 +61,6 @@ export {
   getLinks,
   getAds,
   getTopList,
-  getDetail
+  getDetail,
+  getComments
 }

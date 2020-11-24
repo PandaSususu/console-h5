@@ -14,16 +14,16 @@ const sign = async () => {
  * 修改用户基本信息
  * @param {*}
  */
-const updateInfo = async (option) => {
-  return axios.post('/user/basic', option)
+const updateInfo = async (options) => {
+  return axios.post('/user/basic', options)
 }
 
 /**
  * 修改用户邮件账户
  * @param {*}
  */
-const updateEmail = async (option) => {
-  return axios.get('/public/resetEmail?' + qs.stringify(option))
+const updateEmail = async (options) => {
+  return axios.get('/public/resetEmail?' + qs.stringify(options))
 }
 
 /**
@@ -34,9 +34,18 @@ const getUserPosts = async () => {
   return axios.get('/user/list')
 }
 
+/**
+ * 用户发表评论
+ * @param {*}
+ */
+const postComments = async (options) => {
+  return axios.post('/user/comment', options)
+}
+
 export {
   sign,
   updateInfo,
   updateEmail,
-  getUserPosts
+  getUserPosts,
+  postComments
 }
