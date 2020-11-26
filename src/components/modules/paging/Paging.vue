@@ -113,7 +113,7 @@ export default {
     },
     choice(index) {
       this.optionIndex = index
-      this.current = Math.floor(this.current * this.limit / this.options[this.optionIndex])
+      this.$emit('changePage', Math.floor(this.current * this.limit / this.options[this.optionIndex]))
       this.limit = this.options[this.optionIndex]
       this.initPages(this.limit)
     },

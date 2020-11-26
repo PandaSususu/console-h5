@@ -38,8 +38,16 @@ const getUserPosts = async () => {
  * 用户发表评论
  * @param {*}
  */
-const postComments = async (options) => {
+const postComment = async (options) => {
   return axios.post('/user/comment', options)
+}
+
+/**
+ * 用户修改评论
+ * @param {*}
+ */
+const updateComment = async (options) => {
+  return axios.post('/user/editComment', options)
 }
 
 export {
@@ -47,5 +55,6 @@ export {
   updateInfo,
   updateEmail,
   getUserPosts,
-  postComments
+  postComment,
+  updateComment
 }

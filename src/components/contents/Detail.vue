@@ -43,8 +43,8 @@
                           p-id="1366"
                         ></path></svg
                     ></span>
-                    <span class="layui-badge layui-bg-blue" v-if="postInfo.user && postInfo.user.isVip === '1'">VIP3</span>
-                    <span class="date">{{ postInfo.created }}</span>
+                    <span class="layui-badge layui-bg-blue fly-margin-right" v-if="postInfo.user && postInfo.user.isVip === '1'">VIP{{ postInfo.user ? postInfo.user.isVip : '' }}</span>
+                    <span class="date">{{ postInfo.created | formatDate }}</span>
                   </p>
                   <p class="fav">悬赏：{{ postInfo.fav }}积分</p>
                 </div>
@@ -54,131 +54,57 @@
                 <button class="layui-btn layui-btn-primary">收藏</button>
               </div>
             </div>
-            <div class="post-content" v-html="postInfo.content"></div>
+            <div class="post-content" v-casehtml="postInfo.content"></div>
           </div>
           <div class="post-comment ui-panel">
             <h3>评论</h3>
             <div class="comments">
-              <div class="comment-item">
-                <div class="post-user">
-                  <div class="info">
-                    <div class="pic">
-                      <img src="http://localhost:36742/images/20201116/fb7a39a1-4264-40aa-b826-bb9f996daae1.jpg" alt="" />
-                    </div>
-                    <div class="basic">
-                      <p class="user">
-                        <span class="name">闲心</span>
-                        <span class="vip"
-                          ><svg t="1601396379570" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1365" width="200" height="200">
-                            <path
-                              d="M605.693 867.837h-63.715v-304.621h63.715v304.621M881.428 719.652c-16.991 25.486-43.449 38.108-79.493 38.108h-73.060v110.077h-63.715v-304.621h139.325c29.491 0 52.671 8.738 69.42 26.093 16.869 17.355 25.244 41.142 25.244 71.483 0.122 21.36-5.825 41.021-17.718 58.861M186.383 867.837v-648.685c0-2.67-2.185-4.854-4.854-4.854h-49.637c-2.67 0-4.854-2.185-4.854-4.854v-49.759c0-2.67 2.185-4.854 4.854-4.854h227.92c2.67 0 4.854 2.185 4.854 4.854v292.242l297.703-295.641c0.85-0.85 2.185-1.456 3.398-1.456h221.972c4.369 0 6.432 5.219 3.398 8.253l-704.754 704.754M822.446 625.596c-8.738-6.432-23.059-9.709-42.962-9.709h-50.608v89.202h59.104c20.389 0 34.224-6.19 41.628-18.569 4.005-6.796 5.947-16.384 5.947-28.763 0-14.928-4.369-25.607-13.107-32.161M822.446 625.596z"
-                              fill="#EEC211"
-                              p-id="1366"
-                            ></path></svg
-                        ></span>
-                        <span class="layui-badge layui-bg-blue">VIP3</span>
-                      </p>
-                      <p class="date">2020-11-30</p>
-                    </div>
-                  </div>
-                </div>
-                <div class="comment-comtent">
-                  haahahahh
-                </div>
-                <div class="operation">
-                  <div>
-                    <span><i class="layui-icon layui-icon-praise"></i>66</span>
-                    <span><i class="layui-icon layui-icon-reply-fill"></i>回复</span>
-                  </div>
-                  <div>
-                    <a href="">编辑</a>
-                    <a href="">删除</a>
-                    <a href="">采纳</a>
-                  </div>
-                </div>
+              <div class="not-comments" v-if="!comments.length">
+                <img src="../../assets/images/not-comments.png" alt="">
+                <p class="text-center">快来占沙发吧...</p>
               </div>
-              <div class="comment-item">
+              <div class="comment-item" v-for="(item, index) in comments" :key="'comment' + index">
                 <div class="post-user">
                   <div class="info">
                     <div class="pic">
-                      <img src="http://localhost:36742/images/20201116/fb7a39a1-4264-40aa-b826-bb9f996daae1.jpg" alt="" />
+                      <img :src="item.user ? item.user.pic : ''" alt="" />
                     </div>
                     <div class="basic">
                       <p class="user">
-                        <span class="name">闲心</span>
+                        <span class="name">{{ item.user ? item.user.name : '' }}</span>
                         <span class="vip"
-                          ><svg t="1601396379570" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1365" width="200" height="200">
+                          v-if="item.user && item.user.isVip === '1'"><svg t="1601396379570" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1365" width="200" height="200">
                             <path
                               d="M605.693 867.837h-63.715v-304.621h63.715v304.621M881.428 719.652c-16.991 25.486-43.449 38.108-79.493 38.108h-73.060v110.077h-63.715v-304.621h139.325c29.491 0 52.671 8.738 69.42 26.093 16.869 17.355 25.244 41.142 25.244 71.483 0.122 21.36-5.825 41.021-17.718 58.861M186.383 867.837v-648.685c0-2.67-2.185-4.854-4.854-4.854h-49.637c-2.67 0-4.854-2.185-4.854-4.854v-49.759c0-2.67 2.185-4.854 4.854-4.854h227.92c2.67 0 4.854 2.185 4.854 4.854v292.242l297.703-295.641c0.85-0.85 2.185-1.456 3.398-1.456h221.972c4.369 0 6.432 5.219 3.398 8.253l-704.754 704.754M822.446 625.596c-8.738-6.432-23.059-9.709-42.962-9.709h-50.608v89.202h59.104c20.389 0 34.224-6.19 41.628-18.569 4.005-6.796 5.947-16.384 5.947-28.763 0-14.928-4.369-25.607-13.107-32.161M822.446 625.596z"
                               fill="#EEC211"
                               p-id="1366"
                             ></path></svg
                         ></span>
-                        <span class="layui-badge layui-bg-blue">VIP3</span>
+                        <span class="layui-badge layui-bg-blue" v-if="item.user && item.user.isVip === '1'">VIP{{ item.user ? item.user.isVip : '' }}</span>
                       </p>
-                      <p class="date">2020-11-30</p>
+                      <p class="date">{{ item.created | formatDate }}</p>
                     </div>
                   </div>
                 </div>
-                <div class="comment-comtent">
-                  haahahahh
-                </div>
+                <div class="comment-comtent" v-casehtml="item.content"></div>
                 <div class="operation">
                   <div>
-                    <span><i class="layui-icon layui-icon-praise"></i>66</span>
+                    <span><i class="layui-icon layui-icon-praise"></i>{{ item.hands }}</span>
                     <span><i class="layui-icon layui-icon-reply-fill"></i>回复</span>
                   </div>
                   <div>
-                    <a href="">编辑</a>
-                    <a href="">删除</a>
-                    <a href="">采纳</a>
-                  </div>
-                </div>
-              </div>
-              <div class="comment-item">
-                <div class="post-user">
-                  <div class="info">
-                    <div class="pic">
-                      <img src="http://localhost:36742/images/20201116/fb7a39a1-4264-40aa-b826-bb9f996daae1.jpg" alt="" />
-                    </div>
-                    <div class="basic">
-                      <p class="user">
-                        <span class="name">闲心</span>
-                        <span class="vip"
-                          ><svg t="1601396379570" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1365" width="200" height="200">
-                            <path
-                              d="M605.693 867.837h-63.715v-304.621h63.715v304.621M881.428 719.652c-16.991 25.486-43.449 38.108-79.493 38.108h-73.060v110.077h-63.715v-304.621h139.325c29.491 0 52.671 8.738 69.42 26.093 16.869 17.355 25.244 41.142 25.244 71.483 0.122 21.36-5.825 41.021-17.718 58.861M186.383 867.837v-648.685c0-2.67-2.185-4.854-4.854-4.854h-49.637c-2.67 0-4.854-2.185-4.854-4.854v-49.759c0-2.67 2.185-4.854 4.854-4.854h227.92c2.67 0 4.854 2.185 4.854 4.854v292.242l297.703-295.641c0.85-0.85 2.185-1.456 3.398-1.456h221.972c4.369 0 6.432 5.219 3.398 8.253l-704.754 704.754M822.446 625.596c-8.738-6.432-23.059-9.709-42.962-9.709h-50.608v89.202h59.104c20.389 0 34.224-6.19 41.628-18.569 4.005-6.796 5.947-16.384 5.947-28.763 0-14.928-4.369-25.607-13.107-32.161M822.446 625.596z"
-                              fill="#EEC211"
-                              p-id="1366"
-                            ></path></svg
-                        ></span>
-                        <span class="layui-badge layui-bg-blue">VIP3</span>
-                      </p>
-                      <p class="date">2020-11-30</p>
-                    </div>
-                  </div>
-                </div>
-                <div class="comment-comtent">
-                  haahahahh
-                </div>
-                <div class="operation">
-                  <div>
-                    <span><i class="layui-icon layui-icon-praise"></i>66</span>
-                    <span><i class="layui-icon layui-icon-reply-fill"></i>回复</span>
-                  </div>
-                  <div>
-                    <a href="">编辑</a>
-                    <a href="">删除</a>
-                    <a href="">采纳</a>
+                    <a v-show="postInfo.isEnd === '0' && userInfo && item.user._id === userInfo._id" @click.prevent="editComment(item._id, item.content)">编辑</a>
+                    <a v-show="postInfo.isEnd === '0' && userInfo && item.user._id === userInfo._id" @click.prevent="deleteComment(item._id)">删除</a>
+                    <a v-show="postInfo.isEnd === '0' && userInfo && postInfo.user._id === userInfo._id" @click.prevent="bestComment(item._id)">采纳</a>
                   </div>
                 </div>
               </div>
             </div>
-            <ui-page :total="total" :size="size" :current="current" @changePage="handleChange"></ui-page>
+            <ui-page :total="total" :size="limit" :current="current" @changePage="handleChange"></ui-page>
           </div>
           <validation-observer ref="observer" v-slot="{ validate }">
             <form class="layui-form layui-form-pane" action="">
-              <ui-editor @changeContent="getContent"></ui-editor>
+              <ui-editor @changeContent="getContent" :initContent="content"></ui-editor>
               <div class="layui-form-item captcha">
                 <label class="layui-form-label">验证码</label>
                 <validation-provider rules="required|length:4" ref="codefield" name="code" v-slot="{ errors }">
@@ -191,7 +117,7 @@
               </div>
 
               <div class="submit">
-                <button class="layui-btn" type="button" @click="validate().then(submit)">发表评论</button>
+                <button class="layui-btn" type="button" @click="validate().then(submit)">{{ isUpdate ? '更新' : '发表' }}评论</button>
               </div>
             </form>
           </validation-observer>
@@ -219,8 +145,8 @@ import Editor from '@/components/modules/editor/Index'
 import code from '@/mixin/code'
 import Page from '@/components/modules/paging/Paging'
 import { getDetail, getComments } from '@/api/index'
-import { postComments } from '@/api/user'
-import { escapeHtml } from '@/utils/escapeHtml'
+import { postComment } from '@/api/user'
+import { scrollToElem } from '@/utils/common'
 
 export default {
   name: 'index',
@@ -239,10 +165,12 @@ export default {
     return {
       content: '',
       code: '',
-      total: 101,
-      size: 15,
-      current: 5,
+      total: 0,
+      limit: 10,
+      page: 0,
+      current: 1,
       postInfo: {},
+      comments: [],
       catalogObj: {
         index: '全部',
         ask: '提问',
@@ -250,7 +178,13 @@ export default {
         discuss: '交流',
         share: '分享',
         news: '动态'
-      }
+      },
+      isUpdate: false
+    }
+  },
+  computed: {
+    userInfo() {
+      return this.$store.state.userInfo
     }
   },
   methods: {
@@ -270,9 +204,8 @@ export default {
         this.$alert('评论内容不能为空')
         return false
       }
-      postComments({
+      postComment({
         tid: this.postInfo._id,
-        uid: this.$store.state.userInfo._id,
         content: this.content,
         sid: this.sid,
         code: this.code
@@ -281,14 +214,39 @@ export default {
           this.$pop(res.message)
           this.code = ''
           this.content = ''
-          this._getCode()
+          const userInfo = this.$store.state.userInfo
+          const user = {
+            name: userInfo.name,
+            pic: userInfo.pic,
+            isVip: userInfo.isVip,
+            _id: userInfo._id
+          }
+          res.data.user = user
+          delete res.data.uid
+          this.comments.push(res.data)
+          requestAnimationFrame(() => {
+            this.$refs.observer && this.$refs.observer.reset()
+          })
         } else if (res.code === 9000) {
           this.$refs.codefield.setErrors([res.message])
+        } else {
+          this.$alert(res.message)
         }
       })
     },
     handleChange(pageNumber) {
       this.current = pageNumber
+    },
+    editComment(cid, content) {
+      this.content = content
+      scrollToElem('.layui-input-block', 500, 0)
+      document.getElementById('edit').focus()
+    },
+    deleteComment() {
+
+    },
+    bestComment() {
+      this.$confirm('你确定要采纳该评论为最佳评论吗？', () => {}, () => {})
     }
   },
   mounted() {
@@ -296,9 +254,13 @@ export default {
     getDetail({ tid }).then((res) => {
       if (res.code === 10000) {
         this.postInfo = res.data
-        this.postInfo.content = escapeHtml(this.postInfo.content)
-        getComments({ tid }).then((res) => {
-          console.log(res)
+        getComments({ tid, page: this.page, limit: this.limit }).then((res) => {
+          if (res.code === 10000) {
+            this.comments = res.data.list
+            this.total = res.data.total
+          } else {
+            this.$alert(res.message)
+          }
         })
       } else {
         this.$alert(res.message)
@@ -383,7 +345,6 @@ export default {
       }
       .date {
         color: #999;
-        margin-left: 10px;
       }
     }
   }
@@ -405,6 +366,19 @@ export default {
   }
 
   .comments {
+    .not-comments {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      img {
+        width: 80px;
+      }
+      p {
+        color: #999;
+        margin-top: 10px;
+      }
+    }
     .comment-item {
       border-bottom: 1px solid #f2f2f2;
       padding: 10px 0;

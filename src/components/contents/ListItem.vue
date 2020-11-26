@@ -23,7 +23,7 @@
                   ></span>
                   <span class="layui-badge">VIP3</span>
               </p>
-              <span class="created">{{ item.created | moment }}</span>
+              <span class="created">{{ item.created | formatDate }}</span>
               <span class="favs"
                 ><svg t="1601371362583" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="3938" width="200" height="200">
                   <path
@@ -53,9 +53,6 @@
 </template>
 
 <script>
-import moment from 'moment'
-import 'moment/locale/zh-cn'
-
 export default {
   name: 'listItem',
   props: {
@@ -83,15 +80,6 @@ export default {
         share: '分享',
         news: '动态',
         notice: '公告'
-      }
-    }
-  },
-  filters: {
-    moment(date) {
-      if (moment(date).isBefore(moment().subtract(7, 'days'))) {
-        return moment(date).format('YYYY-MM-DD')
-      } else {
-        return moment(date).from(moment())
       }
     }
   },

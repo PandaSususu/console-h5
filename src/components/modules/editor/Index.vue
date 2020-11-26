@@ -25,7 +25,7 @@
             <i class="layui-icon layui-icon-chart-screen"></i>
           </span>
         </div>
-        <textarea name="conetent" v-model="content" ref="edit" class="layui-textarea" @focus="focusEvent()" @blur="blurEvent()"></textarea>
+        <textarea name="conetent" v-model="content" id="edit" ref="edit" class="layui-textarea" @focus="focusEvent()" @blur="blurEvent()"></textarea>
       </div>
     </div>
     <ui-face :isShow="currentShow === 'face'" @addEvent="handleFace" @closeEvent="close()"></ui-face>
@@ -47,11 +47,17 @@ import Preview from './Preview'
 
 export default {
   name: 'editor',
+  props: ['initContent'],
   data() {
     return {
       content: '',
       cursor: 0,
       currentShow: ''
+    }
+  },
+  watch: {
+    initContent(newVal, oldVal) {
+      this.content = newVal
     }
   },
   components: {
