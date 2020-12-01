@@ -57,6 +57,7 @@ export default {
   },
   watch: {
     initContent(newVal, oldVal) {
+      console.log(newVal, oldVal)
       this.content = newVal
     }
   },

@@ -17,9 +17,12 @@ export default new Vuex.Store({
     },
     // 保存用户信息
     setUserInfo(state, value) {
-      state.userInfo = value.userJson
-      state.token = value.token
+      state.userInfo = value
       localStorage.setItem('userInfo', JSON.stringify(state.userInfo))
+    },
+    // 保存token
+    setUserToken(state, value) {
+      state.token = value
       localStorage.setItem('token', state.token)
     },
     // 设置登陆状态

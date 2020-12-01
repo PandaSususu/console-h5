@@ -86,6 +86,16 @@ export default {
       default: 0
     }
   },
+  watch: {
+    total(newVal, oldVal) {
+      this.initPages()
+    }
+  },
+  computed: {
+    totalPages() {
+      return Math.ceil(this.total / this.limit)
+    }
+  },
   data() {
     return {
       isSelect: false,
@@ -97,12 +107,12 @@ export default {
   },
   mounted() {
     this.limit = this.size
-    this.initPages(this.limit)
+    this.initPages()
     this.initSelect()
   },
   methods: {
-    initPages(limit) {
-      const len = Math.ceil(this.total / limit)
+    initPages() {
+      const len = this.totalPages
       this.pages = _.range(1, len + 1)
     },
     initSelect() {

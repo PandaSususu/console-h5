@@ -30,6 +30,7 @@ const NoFount = () => import(/* webpackChunkName: 'noFount' */ '../views/NoFount
 const Confirm = () => import(/* webpackChunkName: 'confirm' */ '../views/Confirm.vue')
 const Reset = () => import(/* webpackChunkName: 'reset' */ '../views/Reset.vue')
 const Add = () => import(/* webpackChunkName: 'add' */ '../components/contents/Add.vue')
+const Edit = () => import(/* webpackChunkName: 'edit' */ '../components/contents/Edit.vue')
 const Detail = () => import(/* webpackChunkName: 'detail' */ '../components/contents/Detail.vue')
 
 const routes = [
@@ -95,9 +96,17 @@ const routes = [
     meta: { requiresAuth: true }
   },
   {
+    path: '/edit/:tid',
+    name: 'edit',
+    component: Edit,
+    props: true,
+    meta: { requiresAuth: true }
+  },
+  {
     path: '/detail/:tid',
     name: 'detail',
-    component: Detail
+    component: Detail,
+    props: true
   },
   {
     path: '/center',
@@ -188,10 +197,11 @@ router.beforeEach((to, from, next) => {
   if (!store.state.userInfo && !store.state.token) {
     const userInfo = localStorage.getItem('userInfo')
     const token = localStorage.getItem('token')
-    if (userInfo && token) {
+    if (typeof userInfo !== 'undefined' && typeof token !== 'undefined') {
       const payload = jwt.decode(token)
       if (moment().isBefore(moment(payload.exp * 1000))) {
-        store.commit('setUserInfo', { userJson: JSON.parse(userInfo), token })
+        store.commit('setUserInfo', JSON.parse(userInfo))
+        store.commit('setUserToken', token)
         store.commit('setLoginStatus', true)
       }
     }

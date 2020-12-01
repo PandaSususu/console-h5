@@ -14,6 +14,18 @@ const sign = async () => {
  * 修改用户基本信息
  * @param {*}
  */
+const getInfo = async (uid) => {
+  return axios.get('/user/info', {
+    params: {
+      uid
+    }
+  })
+}
+
+/**
+ * 修改用户基本信息
+ * @param {*}
+ */
 const updateInfo = async (options) => {
   return axios.post('/user/basic', options)
 }
@@ -34,27 +46,10 @@ const getUserPosts = async () => {
   return axios.get('/user/list')
 }
 
-/**
- * 用户发表评论
- * @param {*}
- */
-const postComment = async (options) => {
-  return axios.post('/user/comment', options)
-}
-
-/**
- * 用户修改评论
- * @param {*}
- */
-const updateComment = async (options) => {
-  return axios.post('/user/editComment', options)
-}
-
 export {
   sign,
   updateInfo,
   updateEmail,
   getUserPosts,
-  postComment,
-  updateComment
+  getInfo
 }

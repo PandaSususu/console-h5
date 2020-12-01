@@ -20,12 +20,12 @@
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <td>文章的测试标题123文章的测试标题123文章的测试标题123文章的测试标题123文章的测试标题123文章的测试标题123</td>
-        <td class="text-center">打开</td>
-        <td class="text-center">已结</td>
-        <td class="text-center">2020-10-10</td>
-        <td class="text-center">10阅/2答</td>
+      <tr v-for="(item, index) in posts" :key="'post' + index">
+        <td><router-link :to="{ name: 'detail', params: { tid: item.post._id } }">{{ item.post.title }}</router-link></td>
+        <td class="text-center">{{ item.post.status === '0' ? '打开' : '关闭' }}</td>
+        <td class="text-center">{{ item.post.isEnd === '0' ? '未结' : '已结' }}</td>
+        <td class="text-center">{{ item.post.created | formatTime }}</td>
+        <td class="text-center">{{ item.post.reads }}阅/{{ item.post.answer }}答</td>
         <td class="text-center">
           <button type="button" class="layui-btn layui-btn-sm">编辑</button>
           <button type="button" class="layui-btn layui-btn-danger layui-btn-sm">删除</button>
@@ -36,13 +36,23 @@
 </template>
 
 <script>
+import { getUserCollerctPosts } from '@/api/post'
+
 export default {
   name: 'my-collection',
   data() {
-    return {}
+    return {
+      posts: []
+    }
   },
   methods: {},
-  mounted() {}
+  mounted() {
+    getUserCollerctPosts().then((res) => {
+      if (res.code === 10000) {
+        this.posts = res.data
+      }
+    })
+  }
 }
 </script>
 <style lang="scss" scoped>

@@ -21,13 +21,13 @@
     </thead>
     <tbody>
       <tr v-for="(item, index) in list" :key="'post' + index">
-        <td style="word-break: break-all">{{ item.title }}</td>
+        <td style="word-break: break-all"><router-link :to="{ name: 'detail', params: { tid: item._id } }">{{ item.title }}</router-link></td>
         <td class="text-center">{{ item.status === '0' ? '打开' : '关闭' }}</td>
         <td class="text-center">{{ item.isEnd === '0' ? '未结' : '已结' }}</td>
-        <td class="text-center">{{ item.created }}</td>
+        <td class="text-center">{{ item.created | formatTime }}</td>
         <td class="text-center">{{ item.reads }}阅/{{ item.answer }}答</td>
         <td class="text-center">
-          <button type="button" class="layui-btn layui-btn-sm">编辑</button>
+          <router-link tag="button" type="button" class="layui-btn layui-btn-sm" :to="{ name: 'edit', params: { tid: item._id, postInfo: item } }">编辑</router-link>
           <button type="button" class="layui-btn layui-btn-danger layui-btn-sm">删除</button>
         </td>
       </tr>
@@ -36,9 +36,7 @@
 </template>
 
 <script>
-import moment from 'moment'
-
-import { getUserPosts } from '@/api/user'
+import { getUserPosts } from '@/api/post'
 
 export default {
   name: 'myPosts',
@@ -52,9 +50,6 @@ export default {
     getUserPosts().then((res) => {
       if (res.code === 10000) {
         this.list = res.data
-        for (const item of this.list) {
-          item.created = moment(item.created).format('YYYY-MM-DD HH:mm:ss')
-        }
       } else {
         this.$alert(res.message)
       }

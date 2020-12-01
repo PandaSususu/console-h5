@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import { getTopList } from '@/api/index'
+import { getTopList } from '@/api/post'
 import ListItem from './ListItem'
 
 export default {

@@ -2,7 +2,7 @@
   <div class="layui-container ui-panel" style="flex: 1">
     <div class="layui-tab layui-tab-brief">
       <ul class="layui-tab-title">
-        <li class="layui-this">发表新帖</li>
+        <li class="layui-this">编辑帖子</li>
       </ul>
       <div class="layui-tab-content">
         <validation-observer ref="observer" v-slot="{ validate }">
@@ -10,28 +10,13 @@
             <div class="layui-row layui-col-space20">
               <div class="layui-col-md3">
                 <label class="layui-form-label">所在专栏</label>
-                <validation-provider rules="is_not:请选择" name="catalog" v-slot="{ errors }">
-                  <div
-                    class="layui-input-block"
-                    @click="
-                      isSelect = !isSelect
-                      isSelect_fav = false
-                    "
-                  >
-                    <div class="layui-unselect layui-form-select" :class="{ 'layui-form-selected': isSelect }">
-                      <div class="layui-select-title">
-                        <input type="text" placeholder="请选择" readonly class="layui-input layui-unselect" v-model="catalogs[catalogIndex].text" />
-                        <i class="layui-edge"></i>
-                      </div>
-                      <dl class="layui-anim layui-anim-upbit">
-                        <dd v-for="(item, index) in catalogs" :key="'catalog' + index" :class="{ 'layui-this': catalogIndex === index }" @click="choice(item, index)">
-                          {{ item.text }}
-                        </dd>
-                      </dl>
+                <div class="layui-input-block">
+                  <div class="layui-unselect layui-form-select">
+                    <div class="layui-select-title">
+                      <input type="text" placeholder="请选择" readonly class="layui-input layui-unselect layui-btn-disabled" v-model="catalogs[catalogIndex].text" />
                     </div>
-                    <div class="layui-form-mid layui-word-aux">{{ errors[0] }}</div>
                   </div>
-                </validation-provider>
+                </div>
               </div>
               <div class="layui-col-md9">
                 <label class="layui-form-label">帖子标题</label>
@@ -43,26 +28,14 @@
                 </validation-provider>
               </div>
             </div>
-            <ui-editor @changeContent="getContent"></ui-editor>
+            <ui-editor @changeContent="getContent" :initContent="content"></ui-editor>
             <div class="layui-form-item favs">
               <label class="layui-form-label">悬赏积分</label>
-              <div
-                class="layui-input-inline"
-                @click="
-                  isSelect_fav = !isSelect_fav
-                  isSelect = false
-                "
-              >
-                <div class="layui-unselect layui-form-select" :class="{ 'layui-form-selected': isSelect_fav }">
+              <div class="layui-input-inline">
+                <div class="layui-unselect layui-form-select">
                   <div class="layui-select-title">
-                    <input type="text" placeholder="请选择" readonly class="layui-input layui-unselect" v-model="favs[favIndex]" />
-                    <i class="layui-edge"></i>
+                    <input type="text" placeholder="请选择" readonly class="layui-input layui-unselect layui-btn-disabled" v-model="favs[favIndex]" />
                   </div>
-                  <dl class="layui-anim layui-anim-upbit">
-                    <dd v-for="(item, index) in favs" :key="'fav' + index" :class="{ 'layui-this': favIndex === index }" @click="choiceFav(item, index)">
-                      {{ item }}
-                    </dd>
-                  </dl>
                 </div>
               </div>
               <div class="layui-form-mid layui-word-aux">发表后无法更改积分</div>
@@ -80,7 +53,7 @@
             </div>
 
             <div class="submit">
-              <button class="layui-btn" type="button" @click="validate().then(submit)">立即发布</button>
+              <button class="layui-btn" type="button" @click="validate().then(submit)">确认编辑</button>
             </div>
           </form>
         </validation-observer>
@@ -92,22 +65,21 @@
 <script>
 import Editor from '../modules/editor/Index'
 import code from '@/mixin/code'
-import { addPost } from '@/api/post'
+import { updatePost } from '@/api/post'
 
 export default {
-  name: 'add',
+  name: 'edit',
   components: {
     'ui-editor': Editor
   },
   mixins: [code],
+  props: ['tid', 'postInfo'],
   data() {
     return {
-      isSelect: false,
-      isSelect_fav: false,
-      catalogIndex: 0,
-      favIndex: 0,
       title: '',
       content: '',
+      catalogIndex: 0,
+      favIndex: 0,
       catalogs: [
         {
           text: '请选择',
@@ -144,12 +116,6 @@ export default {
     }
   },
   methods: {
-    choice(catalog, index) {
-      this.catalogIndex = index
-    },
-    choiceFav(fav, index) {
-      this.favIndex = index
-    },
     getContent(val) {
       this.content = val
     },
@@ -158,23 +124,21 @@ export default {
       if (!isValid) {
         return false
       }
-      if (!this.content.trim()) {
+      if (!this.postInfo.content.trim()) {
         this.$alert('内容不能为空')
         return false
       }
-      addPost({
+      updatePost({
+        tid: this.postInfo._id,
         title: this.title,
-        catalog: this.catalogs[this.catalogIndex].value,
         content: this.content,
-        fav: this.favs[this.favIndex],
         code: this.code,
         sid: this.sid
       }).then(res => {
         if (res.code === 10000) {
-          this.$pop('恭喜你，发帖成功')
-          console.log(res.data)
+          this.$pop(res.message)
           setTimeout(() => {
-            this.$router.push({ name: 'detail', params: { tid: res.data } })
+            this.$router.push({ name: 'detail', params: { tid: this.postInfo._id } })
           }, 3000)
         } else if (res.code === 9000) {
           this.$refs.codefield.setErrors([res.message])
@@ -184,7 +148,12 @@ export default {
       })
     }
   },
-  mounted() {}
+  mounted() {
+    this.title = this.postInfo.title
+    this.content = this.postInfo.content
+    this.favIndex = this.favs.indexOf(parseInt(this.postInfo.fav))
+    this.catalogIndex = this.catalogs.findIndex(item => item.value === this.postInfo.catalog)
+  }
 }
 </script>
 

@@ -1,12 +1,13 @@
 <template>
   <div class="ui-panel user-center">
-    <div class="title">欢迎回来，亲爱的{{ userName }}</div>
+    <div class="title">欢迎回来，亲爱的{{ userInfo.name }}</div>
     <div class="info">
       <div class="account ui-panel">
         <div class="my">我的会账户息</div>
         <div class="experience">
-          <p>积分经验值：<span>600</span></p>
-          <p>您当前为：<span>VIP</span></p>
+          <p>积分经验值：<span>{{ userInfo.favs }}</span></p>
+          <p v-if="userInfo.isVip !== '0'">您当前为：<span>VIP{{ userInfo.isVip }}</span></p>
+          <button class="layui-btn layui-btn-warm layui-btn-sm" v-else>去开通会员</button>
         </div>
       </div>
       <ui-sign></ui-sign>
@@ -31,6 +32,7 @@
 
 <script>
 import Sign from '@/components/sidebar/Sign'
+import { getInfo } from '@/api/user'
 
 export default {
   name: 'user-center',
@@ -100,16 +102,20 @@ export default {
           icon: 'layui-icon-user',
           path: ''
         }
-      ]
-    }
-  },
-  computed: {
-    userName() {
-      return this.$store.state.userInfo.name
+      ],
+      userInfo: {}
     }
   },
   methods: {},
-  mounted() {}
+  mounted() {
+    getInfo(this.$store.state.userInfo._id).then((res) => {
+      console.log(res)
+      if (res.code === 10000) {
+        this.userInfo = res.data
+        this.$store.commit('setUserInfo', res.data)
+      }
+    })
+  }
 }
 </script>
 <style lang="scss" scoped>

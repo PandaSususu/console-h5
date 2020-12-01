@@ -78,7 +78,8 @@ export default {
       }).then(res => {
         if (res.code === 10000) {
           this.$pop('登录成功')
-          this.$store.commit('setUserInfo', res.data)
+          this.$store.commit('setUserInfo', res.data.userJson)
+          this.$store.commit('setUserToken', res.data.token)
           this.$store.commit('setLoginStatus', true)
           this.$router.push({ name: 'index' })
         } else if (res.code === 9003) {
