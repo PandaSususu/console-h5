@@ -43,6 +43,8 @@ body, html {
   cursor: pointer;
 }
 
+pre{padding: 10px 15px; margin: 10px 0; font-size: 12px; border-left: 6px solid #009688;  background-color: #f8f8f8; font-family: Courier New; overflow: auto;}
+
 @keyframes show {
   0% {
     opacity: 0;

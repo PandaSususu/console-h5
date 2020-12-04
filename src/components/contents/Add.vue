@@ -43,7 +43,7 @@
                 </validation-provider>
               </div>
             </div>
-            <ui-editor @changeContent="getContent"></ui-editor>
+            <ui-editor @changeContent="getContent" :initContent="content"></ui-editor>
             <div class="layui-form-item favs">
               <label class="layui-form-label">悬赏积分</label>
               <div
@@ -172,8 +172,10 @@ export default {
       }).then(res => {
         if (res.code === 10000) {
           this.$pop('恭喜你，发帖成功')
-          console.log(res.data)
+          localStorage.removeItem('addData')
           setTimeout(() => {
+            this.content = ''
+            this.title = ''
             this.$router.push({ name: 'detail', params: { tid: res.data } })
           }, 3000)
         } else if (res.code === 9000) {
@@ -182,9 +184,44 @@ export default {
           this.$alert(res.message)
         }
       })
+    },
+    leavePage() {
+      if (this.title.trim() || this.content.trim()) {
+        const addData = {
+          title: this.title,
+          content: this.content,
+          catalogIndex: this.catalogIndex,
+          favIndex: this.favIndex
+        }
+        localStorage.setItem('addData', JSON.stringify(addData))
+      }
     }
   },
-  mounted() {}
+  mounted() {
+    window.addEventListener('beforeunload', this.leavePage)
+    let addData = localStorage.getItem('addData')
+    if (addData) {
+      this.$confirm(
+        '是否加载未编辑完的内容？',
+        () => {
+          addData = JSON.parse(addData)
+          this.title = addData.title
+          this.content = addData.content
+          this.catalogIndex = addData.catalogIndex
+          this.favIndex = addData.favIndex
+        },
+        () => {
+          localStorage.removeItem('addData')
+        }
+      )
+    }
+  },
+  beforeDestroy() {
+    this.leavePage()
+  },
+  destroyed() {
+    window.removeEventListener('beforeunload', this.leavePage)
+  }
 }
 </script>
 

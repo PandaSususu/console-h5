@@ -20,6 +20,10 @@ export default {
     isShow: {
       type: Boolean,
       default: false
+    },
+    time: {
+      type: Number,
+      default: 3000
     }
   },
   watch: {
@@ -27,7 +31,7 @@ export default {
       if (newVal !== oldVal && newVal) {
         setTimeout(() => {
           this.isShow = false
-        }, 3000)
+        }, this.time)
       }
     }
   }

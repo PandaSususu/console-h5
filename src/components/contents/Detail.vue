@@ -213,7 +213,22 @@ export default {
       return this.$store.state.userInfo
     }
   },
+  watch: {
+    tid(newVal, oldVal) {
+      this._getDetails()
+    }
+  },
   methods: {
+    _getDetails() {
+      getDetail({ tid: this.tid }).then(res => {
+        if (res.code === 10000) {
+          this.postInfo = res.data
+          this._getComments()
+        } else {
+          this.$alert(res.message)
+        }
+      })
+    },
     getContent(val) {
       this.content = val
     },
@@ -388,14 +403,7 @@ export default {
     }
   },
   mounted() {
-    getDetail({ tid: this.tid }).then(res => {
-      if (res.code === 10000) {
-        this.postInfo = res.data
-        this._getComments()
-      } else {
-        this.$alert(res.message)
-      }
-    })
+    this._getDetails()
   }
 }
 </script>

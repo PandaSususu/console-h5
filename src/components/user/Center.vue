@@ -17,12 +17,12 @@
       <div class="operate">
         <ul class="layui-row layui-col-space10">
           <li class="layui-col-sm3 layui-col-xs4" v-for="(item, index) in operations" :key="'operation' + index">
-            <router-link :to="{ name: item.path }">
+            <a href="" @click.prevent="open(item.isComplete, item.path)">
               <div>
                 <i class="layui-icon" :class="item.icon"></i>
               </div>
               <p>{{ item.name }}</p>
-            </router-link>
+            </a>
           </li>
         </ul>
       </div>
@@ -45,68 +45,88 @@ export default {
         {
           name: '修改信息',
           icon: 'layui-icon-set',
-          path: 'setting'
+          path: 'setting',
+          isComplete: true
         },
         {
           name: '修改头像',
           icon: 'layui-icon-face-smile',
-          path: 'picupload'
+          path: 'picupload',
+          isComplete: true
         },
         {
           name: '修改密码',
           icon: 'layui-icon-password',
-          path: 'password'
+          path: 'password',
+          isComplete: true
         },
         {
           name: '账户绑定',
           icon: 'layui-icon-username',
-          path: 'accounts'
+          path: 'accounts',
+          isComplete: true
         },
         {
           name: '发表新帖',
           icon: 'layui-icon-addition',
-          path: ''
+          path: 'add',
+          isComplete: true
         },
         {
           name: '查看分享',
           icon: 'layui-icon-share',
-          path: ''
+          path: '',
+          isComplete: false
         },
         {
           name: '我的帖子',
           icon: 'layui-icon-home',
-          path: 'posts'
+          path: 'posts',
+          isComplete: true
         },
         {
           name: '我的收藏',
           icon: 'layui-icon-star',
-          path: 'collection'
+          path: 'collection',
+          isComplete: true
         },
         {
           name: '其他资料',
           icon: 'layui-icon-template-1',
-          path: ''
+          path: '',
+          isComplete: false
         },
         {
           name: '关注公众号',
           icon: 'layui-icon-login-wechat',
-          path: ''
+          path: '',
+          isComplete: false
         },
         {
-          name: '文档',
+          name: '帮助',
           icon: 'layui-icon-list',
-          path: ''
+          path: '',
+          isComplete: false
         },
         {
           name: '后台管理',
           icon: 'layui-icon-user',
-          path: ''
+          path: '',
+          isComplete: false
         }
       ],
       userInfo: {}
     }
   },
-  methods: {},
+  methods: {
+    open(isComplete, path) {
+      if (isComplete) {
+        this.$router.push({ name: path })
+      } else {
+        this.$pop('(*￣︶￣)功能开发中，敬请期待')
+      }
+    }
+  },
   mounted() {
     getInfo(this.$store.state.userInfo._id).then((res) => {
       console.log(res)

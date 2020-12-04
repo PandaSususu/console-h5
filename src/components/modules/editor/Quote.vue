@@ -1,13 +1,13 @@
 <template>
   <transition name="face">
     <div class="insert-link ui-pancl" v-show="isShow">
-      <div class="title">插入引用内容</div>
+      <div class="title">插入引用内容片段</div>
       <div class="content">
         <form class="layui-form layui-form-pane upload">
           <div>
             <div class="layui-form-item layui-form-text image-link">
               <div class="layui-input-block">
-                <textarea name="desc" placeholder="请输入引用内容" class="layui-textarea"></textarea>
+                <textarea name="desc" v-model="content" placeholder="请输入引用内容" class="layui-textarea"></textarea>
               </div>
             </div>
           </div>
@@ -32,10 +32,12 @@ export default {
   },
   methods: {
     submit() {
-      if (!this.content) {
+      if (!this.content.trim()) {
         this.$pop('请输入引用内容', 'shake')
         return false
       }
+      this.$emit('addEvent', this.content)
+      this.content = ''
     },
     cancel() {
       this.$emit('closeEvent')

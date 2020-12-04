@@ -57,8 +57,9 @@ export default {
   },
   watch: {
     initContent(newVal, oldVal) {
-      console.log(newVal, oldVal)
-      this.content = newVal
+      if (this.content !== newVal) {
+        this.content = newVal
+      }
     }
   },
   components: {
@@ -83,10 +84,10 @@ export default {
       this.insert(`链接(${linkObj.link})[${linkObj.linkName ? linkObj.linkName : linkObj.link}] `)
     },
     handleQuote(content) {
-      this.insert(`内容[${content}] `)
+      this.insert(`\n[引用]\n${content}\n[/引用]\n`)
     },
     handleCode(code) {
-      this.insert(`代码[${code}] `)
+      this.insert(`\n[代码]\n${code}\n[/代码]\n`)
     },
     lineBreak() {
       this.currentShow = 'hr'
@@ -97,6 +98,10 @@ export default {
       }
     },
     choose(current) {
+      if (this.currentShow === current) {
+        this.currentShow = ''
+        return
+      }
       this.currentShow = current
     },
     close() {

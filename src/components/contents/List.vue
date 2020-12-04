@@ -15,6 +15,8 @@
           <li @click="search('sort', 'created')" :class="{ 'layui-this': sort === 'created' }">按最新</li>
           <li><span class="line"></span></li>
           <li @click="search('sort', 'answer')" :class="{ 'layui-this': sort === 'answer' }">按热议</li>
+          <li><span class="line"></span></li>
+          <li @click="search('sort', 'fav')" :class="{ 'layui-this': sort === 'fav' }">按积分</li>
         </ul>
       </div>
       <ui-listitem :lists="lists_" @loadMore="loadMore()" :isEnd="notMore"></ui-listitem>
@@ -69,13 +71,13 @@ export default {
         .then(res => {
           this.isLoad = false
           if (res.code === 10000) {
-            if (res.data.length < this.limit) {
-              this.notMore = true
-            }
             if (!this.lists_.length) {
               this.lists_ = res.data
             } else {
               this.lists_ = this.lists_.concat(res.data)
+              if (res.data.length < this.limit) {
+                this.notMore = true
+              }
             }
           }
         })
@@ -94,12 +96,14 @@ export default {
       if (this.isEnd === val) {
         this.isEnd = ''
         this.lists_ = []
+        this.page = 0
         this._getList()
         return
       }
       if (this.tag === val) {
         this.tag = ''
         this.lists_ = []
+        this.page = 0
         this._getList()
         return
       }
@@ -118,6 +122,7 @@ export default {
           this.sort = val
       }
       this.lists_ = []
+      this.page = 0
       this._getList()
     },
     init() {
@@ -176,5 +181,4 @@ export default {
     }
   }
 }
-
 </style>

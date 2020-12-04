@@ -13,7 +13,7 @@
             </p>
             <div class="tags">
               <p>{{ item.user.name }}</p>
-              <p class="user" v-if="item.user && item.user.isVip === '1'">
+              <p class="user" v-if="item.user && item.user.isVip !== '0'">
                 <span><svg t="1601396379570" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1365" width="200" height="200">
                     <path
                       d="M605.693 867.837h-63.715v-304.621h63.715v304.621M881.428 719.652c-16.991 25.486-43.449 38.108-79.493 38.108h-73.060v110.077h-63.715v-304.621h139.325c29.491 0 52.671 8.738 69.42 26.093 16.869 17.355 25.244 41.142 25.244 71.483 0.122 21.36-5.825 41.021-17.718 58.861M186.383 867.837v-648.685c0-2.67-2.185-4.854-4.854-4.854h-49.637c-2.67 0-4.854-2.185-4.854-4.854v-49.759c0-2.67 2.185-4.854 4.854-4.854h227.92c2.67 0 4.854 2.185 4.854 4.854v292.242l297.703-295.641c0.85-0.85 2.185-1.456 3.398-1.456h221.972c4.369 0 6.432 5.219 3.398 8.253l-704.754 704.754M822.446 625.596c-8.738-6.432-23.059-9.709-42.962-9.709h-50.608v89.202h59.104c20.389 0 34.224-6.19 41.628-18.569 4.005-6.796 5.947-16.384 5.947-28.763 0-14.928-4.369-25.607-13.107-32.161M822.446 625.596z"
@@ -21,7 +21,7 @@
                       p-id="1366"
                     ></path></svg
                   ></span>
-                  <span class="layui-badge">VIP3</span>
+                  <span class="layui-badge">VIP{{ item.user.isVip }}</span>
               </p>
               <span class="created">{{ item.created | formatDate }}</span>
               <span class="favs"
@@ -31,7 +31,7 @@
                     p-id="3939"
                     fill="#F76809"
                   ></path></svg
-                >{{ item.favs }}</span
+                >{{ item.fav }}</span
               >
               <span class="layui-badge" :class="item.isEnd === '0' ? 'layui-bg-orange' : 'layui-bg-green'">{{ item.isEnd === '0' ? '未结' : '已结' }}</span>
             </div>
@@ -47,7 +47,7 @@
     </ul>
     <div class="more" v-if="items.length > 19">
       <button class="layui-btn" @click="loadMore()" v-if="!isEnd">加载更多</button>
-      <p v-else>我也是有底线的</p>
+      <p v-else>这就是我的底线...</p>
     </div>
   </div>
 </template>
