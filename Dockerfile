@@ -36,9 +36,8 @@ WORKDIR /app
 
 COPY . .
 
-RUN npm install cnpm -g --no-progress --registry=https://registry.npm.taobao.org
-
-RUN cnpm install --no-progress
+# 安装依赖
+RUN npm install  --registry=https://registry.npm.taobao.org
 
 RUN npm run build
 
