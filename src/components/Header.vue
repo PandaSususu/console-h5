@@ -63,7 +63,8 @@ export default {
     loginOut() {
       this.$pop('退出成功')
       this.$store.commit('setLoginStatus', false)
-      this.$store.commit('setUserInfo', { userJson: {}, token: '' })
+      this.$store.commit('setUserInfo', null)
+      this.$store.commit('setUserToken', '')
       localStorage.removeItem('token')
       localStorage.removeItem('userInfo')
     },
