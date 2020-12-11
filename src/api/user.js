@@ -11,16 +11,10 @@ const sign = async () => {
 }
 
 /**
- * 修改用户基本信息
+ * 获取用户基本信息
  * @param {*}
  */
-const getInfo = async (uid) => {
-  return axios.get('/user/info', {
-    params: {
-      uid
-    }
-  })
-}
+const getInfo = async (uid) => axios.get('/user/info')
 
 /**
  * 修改用户基本信息

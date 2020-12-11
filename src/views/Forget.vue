@@ -34,29 +34,18 @@
 </template>
 
 <script>
-import { getCode, forget } from '@/api/login'
-import { ValidationProvider, ValidationObserver } from 'vee-validate'
+import { forget } from '@/api/login'
+import code from '@/mixin/code'
 
 export default {
-  components: {
-    ValidationProvider,
-    ValidationObserver
-  },
   data() {
     return {
-      codeInfo: {},
       email: '',
       code: ''
     }
   },
+  mixins: [code],
   methods: {
-    _getCode() {
-      getCode(this.$store.state.sid).then((res) => {
-        if (res.code === 10000) {
-          this.codeInfo = res.data
-        }
-      })
-    },
     async submit() {
       const isValid = await this.$refs.observer.validate()
       if (!isValid) {
@@ -65,7 +54,7 @@ export default {
       forget({
         email: this.email,
         code: this.code,
-        sid: this.$store.state.sid
+        sid: this.sid
       }).then((res) => {
         if (res.message === 9000) {
           this.$pop(res.message, 'shake')
@@ -76,9 +65,6 @@ export default {
         }
       })
     }
-  },
-  mounted() {
-    this._getCode()
   }
 }
 </script>

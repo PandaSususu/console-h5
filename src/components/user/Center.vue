@@ -128,8 +128,7 @@ export default {
     }
   },
   mounted() {
-    getInfo(this.$store.state.userInfo._id).then((res) => {
-      console.log(res)
+    getInfo().then((res) => {
       if (res.code === 10000) {
         this.userInfo = res.data
         this.$store.commit('setUserInfo', res.data)

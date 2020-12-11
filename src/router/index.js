@@ -197,11 +197,8 @@ router.beforeEach((to, from, next) => {
   if (!store.state.userInfo && !store.state.token) {
     const userInfo = localStorage.getItem('userInfo')
     const token = localStorage.getItem('token')
-    console.log(userInfo)
-    console.log(token)
     if (userInfo && token) {
       const payload = jwt.decode(token)
-      console.log(payload)
       if (moment().isBefore(moment(payload.exp * 1000))) {
         store.commit('setUserInfo', JSON.parse(userInfo))
         store.commit('setUserToken', token)
