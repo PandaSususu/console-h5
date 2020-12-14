@@ -29,7 +29,7 @@
 # build stage
 FROM node:14-alpine as build-stage
 
-LABEL maintainer=brian@toimc.com
+LABEL maintainer=syngle@qq.com
 
 # 创建一个工作目录
 WORKDIR /app

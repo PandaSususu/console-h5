@@ -7,8 +7,8 @@
         </router-link>
         <li class="layui-hide-xs"><span class="line"></span></li>
         <template v-if="isLogin">
-          <li class="layui-hide-xs"><a href="">我发表的帖</a></li>
-          <li class="layui-hide-xs"><a href="">我收藏的帖</a></li>
+          <li class="layui-hide-xs"><router-link to="{ name: 'posts' }">我发表的帖</router-link></li>
+          <li class="layui-hide-xs"><router-link to="{ name: 'collection' }">我收藏的帖</router-link></li>
         </template>
       </ul>
       <div class="post layui-hide-xs">

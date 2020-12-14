@@ -1,19 +1,24 @@
 <template>
   <ul class="layui-nav">
+    <li class="layui-nav-item logo">
+      <img src="../assets/images/logo.png" alt="">
+    </li>
     <li class="layui-nav-item"><router-link to="/">首页</router-link></li>
-    <li class="layui-nav-item"><a href="">产品</a></li>
+    <!-- <li class="layui-nav-item"><a href="">产品</a></li>
     <li class="layui-nav-item"><a href="">大数据</a></li>
     <li class="layui-nav-item">
       <a href="javascript:;">解决方案</a>
       <dl class="layui-nav-child">
-        <!-- 二级菜单 -->
         <dd><a href="">移动模块</a></dd>
         <dd><a href="">后台模版</a></dd>
         <dd><a href="">电商平台</a></dd>
       </dl>
+    </li> -->
+    <li class="layui-nav-item">
+      <a @click.prevent=" $pop('功能开发中') ">发现</a>
     </li>
     <li class="layui-nav-item">
-      <a href="">控制台<span class="layui-badge">9</span></a>
+      <a @click.prevent=" $pop('功能开发中') ">消息中心<span class="layui-badge">9</span></a>
     </li>
     <template v-if="!isShow">
       <li class="layui-nav-item float-right">
@@ -84,5 +89,12 @@ export default {
 <style lang="scss" scoped>
 .float-right {
   float: right;
+}
+
+.logo {
+  margin-right: 20px;
+  img {
+    width: 60px;
+  }
 }
 </style>

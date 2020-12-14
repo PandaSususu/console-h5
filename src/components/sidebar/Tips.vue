@@ -1,6 +1,6 @@
 <template>
   <div class="ui-panel tips">
-    <h3 class="title">温馨通道</h3>
+    <h3 class="title">热门技术</h3>
     <ul class="layui-row  layui-col-space10">
       <li class="layui-col-md6" v-for="(item, index) in tipsList" :key="'tips' + index"><a :href="item.link" :target="item.openType">{{ item.title }}</a></li>
     </ul>

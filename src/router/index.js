@@ -41,7 +41,10 @@ const routes = [
       {
         path: '',
         name: 'index',
-        component: Index
+        component: Index,
+        meta: {
+          title: '1024技术论坛'
+        }
       },
       {
         path: '/index/:catalog',
@@ -194,6 +197,9 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
+  if (to.meta.title) {
+    document.title = to.meta.title
+  }
   if (!store.state.userInfo && !store.state.token) {
     const userInfo = localStorage.getItem('userInfo')
     const token = localStorage.getItem('token')
