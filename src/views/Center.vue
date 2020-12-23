@@ -56,6 +56,7 @@ export default {
 .personal-center {
   flex: 1;
   display: flex;
+  margin-bottom: 10px;
 
   & > div {
     flex: 1;

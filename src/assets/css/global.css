@@ -18,6 +18,13 @@ body, html {
   text-align: center;
 }
 
+.text-left {
+  text-align: left;
+}
+.text-right {
+  text-align: right;
+}
+
 .mask {
   position: fixed;
   width: 100%;
@@ -31,6 +38,12 @@ body, html {
 .selected {
   color: #1ABDE6;
 }
+
+.cursor {
+  cursor: pointer;
+}
+
+pre{padding: 10px 15px; margin: 10px 0; font-size: 12px; border-left: 6px solid #009688;  background-color: #f8f8f8; font-family: Courier New; overflow: auto;}
 
 @keyframes show {
   0% {

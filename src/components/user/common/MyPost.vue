@@ -1,12 +1,12 @@
 <template>
   <table class="layui-table">
     <colgroup>
-      <col width="400" />
+      <col width="450" />
       <col width="100" />
       <col width="100" />
-      <col width="150" />
-      <col width="150" />
       <col width="200" />
+      <col width="150" />
+      <col width="150" />
       <col />
     </colgroup>
     <thead>
@@ -20,14 +20,14 @@
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <td>文章的测试标题123</td>
-        <td class="text-center">打开</td>
-        <td class="text-center">未结</td>
-        <td class="text-center">2020-10-10</td>
-        <td class="text-center">10阅/2答</td>
+      <tr v-for="(item, index) in list" :key="'post' + index">
+        <td style="word-break: break-all"><router-link :to="{ name: 'detail', params: { tid: item._id } }">{{ item.title }}</router-link></td>
+        <td class="text-center">{{ item.status === '0' ? '打开' : '关闭' }}</td>
+        <td class="text-center">{{ item.isEnd === '0' ? '未结' : '已结' }}</td>
+        <td class="text-center">{{ item.created | formatTime }}</td>
+        <td class="text-center">{{ item.reads }}阅/{{ item.answer }}答</td>
         <td class="text-center">
-          <button type="button" class="layui-btn layui-btn-sm">编辑</button>
+          <router-link tag="button" type="button" class="layui-btn layui-btn-sm" :to="{ name: 'edit', params: { tid: item._id, postInfo: item } }">编辑</router-link>
           <button type="button" class="layui-btn layui-btn-danger layui-btn-sm">删除</button>
         </td>
       </tr>
@@ -36,13 +36,25 @@
 </template>
 
 <script>
+import { getUserPosts } from '@/api/post'
+
 export default {
-  name: 'my-post',
+  name: 'myPosts',
   data() {
-    return {}
+    return {
+      list: []
+    }
   },
   methods: {},
-  mounted() {}
+  mounted() {
+    getUserPosts().then((res) => {
+      if (res.code === 10000) {
+        this.list = res.data
+      } else {
+        this.$alert(res.message)
+      }
+    })
+  }
 }
 </script>
 <style lang="scss" scoped>

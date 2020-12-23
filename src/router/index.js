@@ -27,6 +27,11 @@ const PicUpload = () => import(/* webpackChunkName: 'picUpload' */ '../component
 const MyPost = () => import(/* webpackChunkName: 'myPost' */ '../components/user/common/MyPost.vue')
 const MyCollection = () => import(/* webpackChunkName: 'myCollection' */ '../components/user/common/MyCollection.vue')
 const NoFount = () => import(/* webpackChunkName: 'noFount' */ '../views/NoFount.vue')
+const Confirm = () => import(/* webpackChunkName: 'confirm' */ '../views/Confirm.vue')
+const Reset = () => import(/* webpackChunkName: 'reset' */ '../views/Reset.vue')
+const Add = () => import(/* webpackChunkName: 'add' */ '../components/contents/Add.vue')
+const Edit = () => import(/* webpackChunkName: 'edit' */ '../components/contents/Edit.vue')
+const Detail = () => import(/* webpackChunkName: 'detail' */ '../components/contents/Detail.vue')
 
 const routes = [
   {
@@ -36,7 +41,10 @@ const routes = [
       {
         path: '',
         name: 'index',
-        component: Index
+        component: Index,
+        meta: {
+          title: '1024技术论坛'
+        }
       },
       {
         path: '/index/:catalog',
@@ -63,9 +71,45 @@ const routes = [
     }
   },
   {
+    path: '/confirm',
+    name: 'confirm',
+    component: Confirm
+  },
+  {
+    path: '/reset',
+    name: 'reset',
+    component: Reset
+  },
+  {
     path: '/forget',
     name: 'forget',
-    component: Forget
+    component: Forget,
+    beforeEnter: (to, from, next) => {
+      if (from.name === 'login') {
+        next()
+      } else {
+        next('/login')
+      }
+    }
+  },
+  {
+    path: '/add',
+    name: 'add',
+    component: Add,
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/edit/:tid',
+    name: 'edit',
+    component: Edit,
+    props: true,
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/detail/:tid',
+    name: 'detail',
+    component: Detail,
+    props: true
   },
   {
     path: '/center',
@@ -153,13 +197,19 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  const userInfo = localStorage.getItem('userInfo')
-  const token = localStorage.getItem('token')
-  if (userInfo && token) {
-    const payload = jwt.decode(token)
-    if (moment().isBefore(moment(payload.exp * 1000))) {
-      store.commit('setUserInfo', { userJson: JSON.parse(userInfo), token: token })
-      store.commit('setLoginStatus', true)
+  if (to.meta.title) {
+    document.title = to.meta.title
+  }
+  if (!store.state.userInfo && !store.state.token) {
+    const userInfo = localStorage.getItem('userInfo')
+    const token = localStorage.getItem('token')
+    if (userInfo && token) {
+      const payload = jwt.decode(token)
+      if (moment().isBefore(moment(payload.exp * 1000))) {
+        store.commit('setUserInfo', JSON.parse(userInfo))
+        store.commit('setUserToken', token)
+        store.commit('setLoginStatus', true)
+      }
     }
   }
   if (to.matched.some(record => record.meta.requiresAuth)) {

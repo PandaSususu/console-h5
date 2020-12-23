@@ -1,7 +1,7 @@
 <template>
   <div class="ui-panel">
     <div class="clear-message">
-      <button type="button" class="layui-btn layui-btn-danger">清空全部消息</button>
+      <button type="button" class="layui-btn layui-btn-danger" @click="clear()">清空全部消息</button>
     </div>
     <div class="message">
       <ul>
@@ -30,11 +30,20 @@ export default {
   data() {
     return {}
   },
-  methods: {},
+  methods: {
+    clear() {
+      this.$confirm('你确定要清空消息记录吗？', () => {
+        this.$pop('清空成功', '', 2000)
+      })
+    }
+  },
   mounted() {}
 }
 </script>
 <style lang="scss" scoped>
+.ui-panel {
+  margin-bottom: 0;
+}
 .clear-message {
   margin: 20px 0;
 }

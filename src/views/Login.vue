@@ -51,31 +51,20 @@
 </template>
 
 <script>
-import { ValidationProvider, ValidationObserver } from 'vee-validate'
-import { getCode, login } from '@/api/login'
-import uuid from 'uuid/v4'
+import { login } from '@/api/login'
+import code from '@/mixin/code'
 
 export default {
+  name: 'login',
+  mixins: [code],
   data() {
     return {
-      codeInfo: {},
       email: '',
-      password: '',
-      code: ''
+      password: ''
     }
   },
-  components: {
-    ValidationProvider,
-    ValidationObserver
-  },
+  components: {},
   methods: {
-    _getCode() {
-      getCode(this.$store.state.sid).then(res => {
-        if (res.code === 200) {
-          this.codeInfo = res.data
-        }
-      })
-    },
     async submit() {
       const isValid = await this.$refs.observer.validate()
       if (!isValid) {
@@ -89,7 +78,8 @@ export default {
       }).then(res => {
         if (res.code === 10000) {
           this.$pop('登录成功')
-          this.$store.commit('setUserInfo', res.data)
+          this.$store.commit('setUserInfo', res.data.userJson)
+          this.$store.commit('setUserToken', res.data.token)
           this.$store.commit('setLoginStatus', true)
           this.$router.push({ name: 'index' })
         } else if (res.code === 9003) {
@@ -100,18 +90,7 @@ export default {
       })
     }
   },
-  mounted() {
-    window.vue = this
-    let sid = ''
-    if (localStorage.getItem('sid')) {
-      sid = localStorage.getItem('sid')
-    } else {
-      sid = uuid()
-      localStorage.setItem('sid', sid)
-    }
-    this.$store.commit('setSid', sid)
-    this._getCode()
-  }
+  mounted() {}
 }
 </script>
 <style lang="scss" scoped>

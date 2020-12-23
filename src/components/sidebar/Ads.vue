@@ -1,9 +1,9 @@
 <template>
-  <div class="ui-panel">
+  <div class="ui-panel ads">
     <h3 class="title">推荐课程</h3>
     <ul>
-      <li>3小时速成核心技术</li>
-      <li>前端全栈</li>
+      <li>3秒钟精通Vue</li>
+      <li>你想成为真男人吗？</li>
     </ul>
   </div>
 </template>
@@ -23,6 +23,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.ads {
+  overflow: hidden;
+}
 ul {
   li {
     background-color: #ddd;

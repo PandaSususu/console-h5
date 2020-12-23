@@ -2,9 +2,9 @@
   <div class="ui-panel">
     <h3 class="title">本周热议</h3>
     <ul>
-      <li>
-        <p>layui的Github</p>
-        <p><span class="layui-icon layui-icon-dialogue"></span>16</p>
+      <li v-for="(item, index) in hotList" :key="'hot' + index">
+        <router-link :to="{ name: 'detail', params: { tid: item._id } }">{{ item.title }}</router-link>
+        <p><span class="layui-icon layui-icon-dialogue"></span>{{ item.answer }}</p>
       </li>
     </ul>
   </div>
@@ -35,6 +35,8 @@ ul {
   line-height: 34px;
   li {
     overflow: hidden;
+    display: flex;
+    justify-content: space-between;
     p {
       float: left;
     }

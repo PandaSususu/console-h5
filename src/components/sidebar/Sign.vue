@@ -15,8 +15,8 @@
     <div class="sign">
       <template v-if="!isSign">
         <button class="layui-btn layui-btn-danger"
-              @click="_sign()">今日签到</button>
-        <p>可获得<span>{{ avaFavs }}</span>积分</p>
+              @click="_sign()">立即签到</button>
+        <p v-if="this.$store.state.isLogin">可获得<span>{{ avaFavs }}</span>积分</p>
       </template>
       <template v-if="isSign">
         <button class="layui-btn layui-btn-disabled"
@@ -35,7 +35,6 @@
 import moment from 'moment'
 
 import { sign } from '@/api/user'
-
 import SignExplain from './common/SignExplain'
 import SignList from './common/SignList'
 
@@ -66,7 +65,7 @@ export default {
       return this.computeFavs(count)
     },
     isSign() {
-      if (this.$store.state.userInfo !== {}) {
+      if (this.$store.state.userInfo) {
         return this.$store.state.userInfo.isSign
       }
       return false
@@ -82,13 +81,13 @@ export default {
     }
   },
   mounted() {
+    console.log(this.$store.state.userInfo)
+    if (!this.$store.state.userInfo) return
     const lastSign = this.$store.state.userInfo.lastSign
     const isSign = this.$store.state.userInfo.isSign
-    const diff = moment(moment().format('YYYY-MM-DD')).diff(moment(lastSign), 'day')
+    const diff = moment(moment().format('YYYY-MM-DD')).diff(moment(lastSign).format('YYYY-MM-DD'), 'day')
     if (diff > 0 && isSign) {
       this.$store.state.userInfo.isSign = false
-    } else {
-      this.$store.state.userInfo.isSign = isSign
     }
   },
   methods: {

@@ -1,14 +1,6 @@
 import axios from '@/utils/request'
 
 /**
- * 修改密码发送邮箱验证接口
- * @param {*} emailInfo 邮箱信息
- */
-const sendEmail = async (emailInfo) => {
-  return axios.post('/login/sendemail', emailInfo)
-}
-
-/**
  * 获取图片验证码
  * @param {*} sid 图片验证码唯一标识
  */
@@ -18,6 +10,22 @@ const getCode = async (sid) => {
       sid: sid
     }
   })
+}
+
+/**
+ * 修改密码发送邮箱验证接口
+ * @param {*} emailInfo 邮箱信息
+ */
+const forget = async (emailInfo) => {
+  return axios.post('/login/forget', emailInfo)
+}
+
+/**
+ * 确认修改密码
+ * @param {*} resetInfo 密码修改信息
+ */
+const reset = async (resetInfo) => {
+  return axios.post('/login/reset', resetInfo)
 }
 
 /**
@@ -36,4 +44,4 @@ const reg = async (regInfo) => {
   return axios.post('/login/reg', regInfo)
 }
 
-export { sendEmail, getCode, login, reg }
+export { forget, getCode, login, reg, reset }

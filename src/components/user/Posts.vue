@@ -22,7 +22,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .layui-tab {
-  margin-top: 0;
+  margin: 0;
   display: flex;
   flex-direction: column;
 

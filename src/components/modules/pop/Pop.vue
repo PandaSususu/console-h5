@@ -20,6 +20,10 @@ export default {
     isShow: {
       type: Boolean,
       default: false
+    },
+    time: {
+      type: Number,
+      default: 3000
     }
   },
   watch: {
@@ -27,7 +31,7 @@ export default {
       if (newVal !== oldVal && newVal) {
         setTimeout(() => {
           this.isShow = false
-        }, 2000)
+        }, this.time)
       }
     }
   }
@@ -40,6 +44,7 @@ export default {
     left: 50%;
     top: 50%;
     transform:translate(-50%,-50%);
+    z-index: 99;
 
     p {
       padding: 10px 10px;

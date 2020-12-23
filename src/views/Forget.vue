@@ -34,43 +34,37 @@
 </template>
 
 <script>
-import { getCode, sendEmail } from '@/api/login'
-import { ValidationProvider, ValidationObserver } from 'vee-validate'
+import { forget } from '@/api/login'
+import code from '@/mixin/code'
 
 export default {
-  components: {
-    ValidationProvider,
-    ValidationObserver
-  },
   data() {
     return {
-      codeInfo: {},
       email: '',
       code: ''
     }
   },
+  mixins: [code],
   methods: {
-    _getCode() {
-      getCode(this.$store.state.sid).then((res) => {
-        if (res.code === 200) {
-          this.codeInfo = res.data
-        }
-      })
-    },
     async submit() {
       const isValid = await this.$refs.observer.validate()
       if (!isValid) {
         return false
       }
-      sendEmail({ email: this.email }).then((res) => {
-        if (res.code === 200) {
-          alert('邮箱发送成功')
+      forget({
+        email: this.email,
+        code: this.code,
+        sid: this.sid
+      }).then((res) => {
+        if (res.message === 9000) {
+          this.$pop(res.message, 'shake')
+        } else if (res.message === 9003) {
+          this.$refs.codefield.setErrors([res.message])
+        } else {
+          this.$alert(res.message)
         }
       })
     }
-  },
-  mounted() {
-    this._getCode()
   }
 }
 </script>

@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import { getList } from '@/api/index'
+import { getTopList } from '@/api/post'
 import ListItem from './ListItem'
 
 export default {
@@ -19,13 +19,6 @@ export default {
   data() {
     return {
       lists_: [],
-      isTop: '1',
-      page: 0,
-      limit: 19,
-      catalog: '',
-      sort: 'created',
-      status: '',
-      tag: '',
       isEnd_: false,
       isLoad: false
     }
@@ -33,26 +26,12 @@ export default {
   methods: {
     _getList() {
       this.isLoad = true
-      const options = {
-        isTop: this.isTop,
-        page: this.page,
-        limit: this.limit,
-        catalog: this.catalog,
-        sort: this.sort,
-        status: this.status,
-        tag: this.tag
-      }
-      getList(options).then((res) => {
+      getTopList().then((res) => {
         this.isLoad = false
-        if (res.code === 200) {
-          if (res.data.length < this.limit) {
-            this.isEnd_ = true
-          }
-          if (!this.lists_.length) {
-            this.lists_ = res.data
-          } else {
-            this.lists_ = this.lists_.concat(res.data)
-          }
+        if (res.code === 10000) {
+          this.lists_ = res.data
+        } else {
+          this.$pop(res.message)
         }
       }).catch((error) => {
         this.$alert(error)

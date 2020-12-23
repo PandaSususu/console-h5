@@ -96,15 +96,18 @@ export default {
       }
       updateInfo(option).then((res) => {
         if (res.code === 10000) {
-          console.log(res)
+          for (const key in res.data) {
+            this.$store.state.userInfo[key] = res.data[key]
+          }
+          localStorage.setItem('userInfo', JSON.stringify(this.$store.state.userInfo))
+          this.$pop('修改成功')
+        } else {
+          this.$alert(res.message)
         }
       }).catch((error) => {
         this.$pop(error, 'shake')
       })
     }
-  },
-  mounted() {
-    console.log(this.$store.state.userInfo)
   }
 }
 </script>
@@ -118,11 +121,6 @@ export default {
   .verification {
     color: #2b91d5;
   }
-}
-
-.verification:hover {
-  text-decoration: underline;
-  cursor: pointer;
 }
 
 .gender {

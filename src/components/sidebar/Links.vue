@@ -3,7 +3,7 @@
     <h3 class="title">友情链接</h3>
     <ul>
       <li v-for="(item, index) in links"
-          :key="'link' + index"><a :href="item.link">{{ item.title }}</a></li>
+          :key="'link' + index"><a :href="item.link" :target="item.openType">{{ item.title }}</a></li>
     </ul>
   </div>
 </template>
