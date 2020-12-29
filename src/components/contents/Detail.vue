@@ -403,6 +403,7 @@ export default {
     }
   },
   mounted() {
+    scrollToElem('body', 500, 0)
     this._getDetails()
   }
 }

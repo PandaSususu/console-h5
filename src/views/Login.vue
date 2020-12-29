@@ -81,6 +81,7 @@ export default {
           this.$store.commit('setUserInfo', res.data.userJson)
           this.$store.commit('setUserToken', res.data.token)
           this.$store.commit('setLoginStatus', true)
+          this.$store.commit('initWebSocket', {})
           this.$router.push({ name: 'index' })
         } else if (res.code === 9003) {
           this.$refs.codefield.setErrors([res.message])

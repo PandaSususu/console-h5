@@ -209,6 +209,7 @@ router.beforeEach((to, from, next) => {
         store.commit('setUserInfo', JSON.parse(userInfo))
         store.commit('setUserToken', token)
         store.commit('setLoginStatus', true)
+        store.commit('initWebSocket', {})
       }
     }
   }

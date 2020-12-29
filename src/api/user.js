@@ -33,17 +33,17 @@ const updateEmail = async (options) => {
 }
 
 /**
- * 获取用户帖子
+ * 获取用户消息
  * @param {*}
  */
-const getUserPosts = async () => {
-  return axios.get('/user/list')
+const getUserMessages = async (options) => {
+  return axios.get('/user/messages?' + qs.stringify(options))
 }
 
 export {
   sign,
   updateInfo,
   updateEmail,
-  getUserPosts,
-  getInfo
+  getInfo,
+  getUserMessages
 }

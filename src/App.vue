@@ -50,4 +50,38 @@ export default {
 .layui-word-aux {
   color: red !important ;
 }
+
+.face-leave-active {
+  animation: bounceOut 0.3s;
+}
+
+.face-enter-to {
+  animation: bounceIn 0.3s;
+  animation-fill-mode: forwards;
+}
+
+@keyframes bounceIn {
+  0% {
+    opacity: 0;
+    transform: scale(0);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes bounceOut {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  30% {
+    transform: scale(1.1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+}
 </style>
