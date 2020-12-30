@@ -12,7 +12,7 @@ export default new Vuex.Store({
     userInfo: null,
     token: '',
     ws: null,
-    msgNum: 0
+    msgNum: {}
   },
   mutations: {
     // 新建websocket连接

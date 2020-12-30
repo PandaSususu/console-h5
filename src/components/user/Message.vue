@@ -1,31 +1,46 @@
 <template>
   <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
     <ul class="layui-tab-title">
-      <li :class="{ 'layui-this': type === 'comment' }" @click="getTypeMsg('comment')">评论</li>
-      <li :class="{ 'layui-this': type === 'collect' }" @click="getTypeMsg('collect')">收藏</li>
-      <li :class="{ 'layui-this': type === 'hands' }" @click="getTypeMsg('hands')">点赞</li>
+      <li :class="{ 'layui-this': type === 'comment' }" @click="getTypeMsg('comment')">
+        评论<span class="layui-badge" v-show="msgNum.comment">{{ msgNum.comment }}</span>
+      </li>
+      <li :class="{ 'layui-this': type === 'collect' }" @click="getTypeMsg('collect')">
+        收藏<span class="layui-badge" v-show="msgNum.collect">{{ msgNum.collect }}</span>
+      </li>
+      <li :class="{ 'layui-this': type === 'hands' }" @click="getTypeMsg('hands')">
+        点赞<span class="layui-badge" v-show="msgNum.hands">{{ msgNum.hands }}</span>
+      </li>
     </ul>
     <div class="layui-tab-content">
-      <div>
-        <div class="clear-message">
-          <button type="button" class="layui-btn layui-btn-danger" @click="clear()" v-show="total">全部已读</button>
-        </div>
-        <div class="message">
-          <ul>
-            <li v-for="(item, index) in lists" :key="'comment' + index">
+      <div class="message">
+        <ul>
+          <li v-for="(item, index) in lists" :key="'comment' + index">
+            <template v-if="type === 'comment'">
               <div>
                 <span>{{ item.uid.name }}</span
-                >{{ types[type] }}了您的帖子<router-link tag="span" :to="{ name: 'detail', params: { tid: item.tid._id } }">{{ item.tid.title }}</router-link>
+                >评论了您的帖子<router-link tag="span" :to="{ name: 'detail', params: { tid: item.tid._id } }">{{ item.tid.title }}</router-link>
               </div>
               <div class="content" v-casehtml="item.content"></div>
+            </template>
+            <template v-if="type === 'collect'">
               <div>
-                <span>{{ item.created | formatDate }}</span>
-                <button type="button" class="layui-btn layui-btn-danger layui-btn-sm">未读</button>
+                <span>{{ item.uid.name }}</span
+                >收藏了您的帖子<router-link tag="span" :to="{ name: 'detail', params: { tid: item.tid._id } }">{{ item.tid.title }}</router-link>
               </div>
-            </li>
-          </ul>
-          <ui-page :total="total" :size="limit" :current="current" @changePage="handleChange"></ui-page>
-        </div>
+            </template>
+            <template v-if="type === 'hands'">
+              <div>
+                <span>{{ item.uid.name }}</span
+                >点赞了您的评论<span>{{ item.cid.content }}</span>
+              </div>
+            </template>
+            <div>
+              <span>{{ item.created | formatDate }}</span>
+              <span class="layui-badge-dot layui-bg-green" v-show="item.isRead === '0'"></span>
+            </div>
+          </li>
+        </ul>
+        <ui-page :total="total" :size="limit" :current="current" @changePage="handleChange"></ui-page>
       </div>
     </div>
   </div>
@@ -33,6 +48,7 @@
 
 <script>
 import { getUserMessages } from '@/api/user'
+import { mapState } from 'vuex'
 
 import Page from '@/components/modules/paging/Paging'
 import { scrollToElem } from '@/utils/common'
@@ -49,13 +65,11 @@ export default {
       page: 0,
       current: 1,
       lists: [],
-      type: 'comment',
-      types: {
-        comment: '评论',
-        collect: '收藏',
-        hands: '点赞'
-      }
+      type: 'comment'
     }
+  },
+  computed: {
+    ...mapState(['msgNum'])
   },
   methods: {
     clear() {
@@ -78,6 +92,14 @@ export default {
         if (res.code === 10000) {
           this.lists = res.data
           this.total = res.total
+          let num = 0
+          res.data.forEach(item => {
+            if (item.isRead === '0') {
+              num++
+            }
+          })
+          this.msgNum.total -= num
+          this.msgNum[this.type] -= num
         } else {
           this.$alert(res.message)
         }
@@ -107,10 +129,6 @@ export default {
     flex: 1;
     background-color: #fff;
   }
-
-  .clear-message {
-    margin-bottom: 20px;
-  }
 }
 .message {
   ul {
@@ -133,10 +151,11 @@ export default {
       }
       div:last-child {
         display: flex;
-        justify-content: space-between;
+        align-items: center;
 
         span {
           color: #999;
+          margin-right: 10px;
         }
       }
     }

@@ -5,7 +5,8 @@ class WebSocketClient {
     const defaultConfig = {
       url: '127.0.0.1',
       port: '4001',
-      protocol: 'ws'
+      protocol: 'ws',
+      timeInterval: 5 * 1000
     }
 
     const finalConfig = { ...defaultConfig, ...config }
@@ -13,6 +14,8 @@ class WebSocketClient {
     this.url = finalConfig.url
     this.protocol = finalConfig.protocol
     this.wsc = {}
+    this.interval = null
+    this.timeInterval = finalConfig.timeInterval
   }
 
   // 初始化websocket
@@ -43,6 +46,7 @@ class WebSocketClient {
       case 'noauth':
         break
       case 'heartbeat':
+        this.checkHeartbeat()
         break
       default:
         store.dispatch('msgTotal', msgObj.message)
@@ -56,11 +60,28 @@ class WebSocketClient {
   }
 
   // 错误断开连接
-  onError() {}
+  onError() {
+    setTimeout(() => {
+      this.initWs()
+    }, this.timeInterval)
+  }
 
   // 发送消息
   sendMsg(msg) {
     this.wsc.send(JSON.stringify(msg))
+  }
+
+  // 心跳检测
+  checkHeartbeat() {
+    clearTimeout(this.interval)
+    this.sendMsg({
+      event: 'heartbeat',
+      message: 'pong'
+    })
+    this.interval = setTimeout(() => {
+      this.onClose()
+      this.initWs()
+    }, this.timeInterval + 500)
   }
 }
 

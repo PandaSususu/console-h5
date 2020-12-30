@@ -39,11 +39,14 @@
       </li>
       <li class="layui-nav-item float-right messages">
         <router-link :to="{ name: 'message' }"
-          >消息中心<span class="layui-badge" v-show="msgNum !== 0">{{ msgNum }}</span></router-link
+          >消息中心<span class="layui-badge" v-show="count">{{ count }}</span></router-link
         >
         <transition name="face">
           <router-link tag="div" class="message-tips" v-show="hasMsg" :to="{ name: 'message' }">
-            您有{{ msgNum }}条未读消息
+            <span v-if="!type">您有{{ count }}条未读消息</span>
+            <span v-else-if="type === 'comment'">收到一条新的评论</span>
+            <span v-else-if="type === 'collect'">有人收藏你的帖子啦</span>
+            <span v-else-if="type === 'hands'">有人点赞了你的评论</span>
             <i class="arrow-top"></i>
           </router-link>
         </transition>
@@ -56,15 +59,16 @@
 import { mapState } from 'vuex'
 
 export default {
-  name: 'top-header',
+  name: 'TopHeader',
   data() {
     return {
       hasMsg: false
     }
   },
   watch: {
-    msgNum(newValue, oldValue) {
-      if (newValue !== oldValue) {
+    count(newValue, oldValue) {
+      const route = this.$route.name
+      if (newValue !== oldValue && newValue !== 0 && route !== 'message') {
         this.hasMsg = true
         setTimeout(() => {
           this.hasMsg = false
@@ -73,7 +77,11 @@ export default {
     }
   },
   computed: {
-    ...mapState(['msgNum']),
+    ...mapState({
+      count: state => state.msgNum.total,
+      type: state => state.msgNum.type,
+      isPop: state => state.event
+    }),
     isShow() {
       return this.$store.state.isLogin
     },
