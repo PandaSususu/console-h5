@@ -15,15 +15,19 @@
                     <span class="layui-badge layui-bg-blue" v-if="postInfo.isTop === '1'">置顶</span>
                     <span class="layui-badge" v-for="(tag, index) in postInfo.tags" :key="'tag' + index" :class="tag.class">{{ tag.name }}</span>
                   </div>
-                  <div v-show="false">
-                    <span class="layui-badge layui-bg-blue">删除</span>
-                    <span class="layui-badge layui-bg-black">置顶</span>
-                    <span class="layui-badge layui-bg-gray">加精</span>
-                  </div>
                 </div>
                 <div class="count">
                   <p><i class="layui-icon layui-icon-dialogue"></i>{{ postInfo.answer }}</p>
                   <p><i class="layui-icon layui-icon-rate-solid"></i>{{ postInfo.reads }}</p>
+                </div>
+              </div>
+              <div>
+                <div v-hasRule="'admin'" class="options">
+                  <span class="layui-badge layui-bg-red">删除</span>
+                  <span class="layui-badge layui-bg-blue" v-if="postInfo.isTop === '0'">置顶</span>
+                  <span class="layui-badge layui-bg-red" v-else>取消置顶</span>
+                  <span class="layui-badge layui-bg-green" v-if="!isEssence">加精</span>
+                  <span class="layui-badge layui-bg-red" v-else>取消加精</span>
                 </div>
               </div>
             </div>
@@ -211,6 +215,16 @@ export default {
   computed: {
     userInfo() {
       return this.$store.state.userInfo
+    },
+    isEssence() {
+      if (this.postInfo.tags) {
+        const result = this.postInfo.tags.find(item => {
+          return item.name === '精华'
+        })
+        return result
+      } else {
+        return false
+      }
     }
   },
   watch: {
@@ -443,6 +457,14 @@ export default {
       p:first-child {
         margin-right: 10px;
       }
+    }
+  }
+
+  .options {
+    margin-top: 10px;
+
+    span {
+      margin-right: 6px;
     }
   }
 }

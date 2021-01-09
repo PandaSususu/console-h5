@@ -76,7 +76,7 @@ export default {
         index: '全部',
         ask: '提问',
         advise: '建议',
-        discuss: '讨论',
+        discuss: '交流',
         share: '分享',
         news: '动态',
         notice: '公告'

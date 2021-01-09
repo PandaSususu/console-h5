@@ -1,6 +1,6 @@
 import faces from '@/assets/js/face'
 
-const htmlEncode = (html) => {
+const htmlEncode = html => {
   let temp = document.createElement('div')
   temp.textContent !== undefined ? (temp.textContent = html) : (temp.innerText = html)
   const output = temp.innerHTML
@@ -8,14 +8,12 @@ const htmlEncode = (html) => {
   return output
 }
 
-const escapeHtml = (val) => {
+const escapeHtml = val => {
   let result = val
   // 表情
   const faceReg = /表情\[\S{1,}\]/g
   if (faceReg.test(result)) {
-    console.log(result)
     const faceGroup = result.match(faceReg)
-    console.log(faceGroup)
     faceGroup.map(item => {
       const faceKey = item.match(/\[\S+\]/g)[0]
       if (faces[faceKey]) {
@@ -39,21 +37,23 @@ const escapeHtml = (val) => {
   if (linkReg.test(result)) {
     const linkGroup = result.match(linkReg)
     linkGroup.map(item => {
-      const link = item.match((/\((\S+)\)/))[1]
-      const title = item.match((/\[(\S+)\]/))[1]
+      const link = item.match(/\((\S+)\)/)[1]
+      const title = item.match(/\[(\S+)\]/)[1]
       result = result.replace(item, `<a href="${link}" target="_blank">${title}</a>`)
     })
   }
 
   // 应用内容
-  result = result.replace(/\[引用\]/g, '<div class="layui-elem-quote">')
-  result = result.replace(/\[\/引用\]/g, '</div>')
+  if (result) {
+    result = result.replace(/\[引用\]/g, '<div class="layui-elem-quote">')
+    result = result.replace(/\[\/引用\]/g, '</div>')
+  }
 
   // 代码块替换
   const code = /(\[\/?代码(.+?)[^\]]*\])|\[[^\]]*\]/g
   if (code.test(result)) {
     const group = result.match(code)
-    group.map((item) => {
+    group.map(item => {
       result = result.replace(item, htmlEncode(item))
     })
     result = result.replace(/\[代码\]/g, '<pre>')
@@ -71,6 +71,4 @@ const escapeHtml = (val) => {
   return result
 }
 
-export {
-  escapeHtml
-}
+export { escapeHtml }

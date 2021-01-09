@@ -80,7 +80,6 @@ class HttpRequest {
 
   // get请求
   get(url, config) {
-    console.log(process.env.NODE_ENV)
     const options = Object.assign({
       method: 'get',
       url: process.env.NODE_ENV === 'production' ? '/api' + url : url
