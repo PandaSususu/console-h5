@@ -5,6 +5,7 @@ import moment from 'moment'
 
 import Home from '@/views/Home'
 import store from '../store'
+import { getInfo } from '@/api/user'
 
 Vue.use(VueRouter)
 
@@ -206,10 +207,15 @@ router.beforeEach((to, from, next) => {
     if (userInfo && token) {
       const payload = jwt.decode(token)
       if (moment().isBefore(moment(payload.exp * 1000))) {
-        store.commit('setUserInfo', JSON.parse(userInfo))
         store.commit('setUserToken', token)
         store.commit('setLoginStatus', true)
+        store.commit('setUserInfo', JSON.parse(userInfo))
         store.commit('initWebSocket', {})
+        getInfo().then(res => {
+          if (res.code === 10000) {
+            store.commit('setUserInfo', res.data)
+          }
+        })
       }
     }
   }

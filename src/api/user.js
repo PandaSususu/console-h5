@@ -14,7 +14,7 @@ const sign = async () => {
  * 获取用户基本信息
  * @param {*}
  */
-const getInfo = async (uid) => axios.get('/user/info')
+const getInfo = async () => axios.get('/user/info')
 
 /**
  * 修改用户基本信息

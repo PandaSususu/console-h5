@@ -81,7 +81,6 @@ export default {
     }
   },
   mounted() {
-    console.log(this.$store.state.userInfo)
     if (!this.$store.state.userInfo) return
     const lastSign = this.$store.state.userInfo.lastSign
     const isSign = this.$store.state.userInfo.isSign

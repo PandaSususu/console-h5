@@ -15,9 +15,10 @@ export default {
       if (store.state.userInfo) {
         const rules = store.state.userInfo.access || ['user']
         if (!rules.includes(binding.value)) {
-          console.log(el.parentNode)
           el.parentNode.removeChild(el)
         }
+      } else {
+        el.parentNode.removeChild(el)
       }
     }
   }

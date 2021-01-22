@@ -1,6 +1,6 @@
 <template>
   <div>
-    <ul>
+    <ul v-if="items.length">
       <li class="list-item cursor" v-for="(item, index) in items" :key="'list' + index">
         <div class="pic" v-if="item.user" @click="detail(item._id)">
           <img :src="item.user.pic" alt="" />
@@ -45,6 +45,10 @@
         </div>
       </li>
     </ul>
+    <div v-else class="not-data">
+      <i class="layui-icon layui-icon-face-cry"></i>
+      <p>空空如也...</p>
+    </div>
     <div class="more" v-if="items.length > 19">
       <button class="layui-btn" @click="loadMore()" v-if="!isEnd">加载更多</button>
       <p v-else>这就是我的底线...</p>
@@ -203,5 +207,14 @@ export default {
   display: flex;
   justify-content: center;
   padding: 20px 0;
+}
+
+.not-data {
+  padding: 20px;
+  text-align: center;
+
+  i {
+    font-size: 40px;
+  }
 }
 </style>

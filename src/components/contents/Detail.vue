@@ -122,7 +122,7 @@
             </div>
             <ui-page :total="total" :size="limit" :current="current" @changePage="handleChange"></ui-page>
           </div>
-          <validation-observer ref="observer" v-slot="{ validate }">
+          <validation-observer ref="observer" v-slot="{ validate }" v-if="postInfo.status !== '1'">
             <form class="layui-form layui-form-pane">
               <ui-editor @changeContent="getContent" :initContent="content"></ui-editor>
               <div class="layui-form-item captcha">
@@ -411,6 +411,9 @@ export default {
         return false
       } else if (this.userInfo.status === '2') {
         this.$pop('该用户已被冻结', 'shake')
+        return false
+      } else if (this.postInfo.status !== '0') {
+        this.$pop('该帖子已关闭回复，试一下其他帖子吧', 'shake')
         return false
       }
       return true
