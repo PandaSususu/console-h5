@@ -7,19 +7,19 @@ import store from '@/store'
  * 发表新帖
  * @param {*}
  */
-const addPost = async (option) => axios.post('/post/add', option)
+const addPost = async option => axios.post('/post/add', option)
 
 /**
  * 更新帖子
  * @param {*}
  */
-const updatePost = async (option) => axios.post('/post/update', option)
+const updatePost = async option => axios.post('/post/update', option)
 
 /**
  * 获取帖子列表
  * @param {*} options 获取帖子列表参数
  */
-const getList = async (options) => {
+const getList = async options => {
   return axios.get('/public/list?' + qs.stringify(options))
 }
 
@@ -33,7 +33,7 @@ const getTopList = async () => axios.get('/public/topList')
  * 获取帖子详情
  * @param {*}
  */
-const getDetail = async (tid) => {
+const getDetail = async tid => {
   let headers = {}
   if (store.state.isLogin) {
     headers = {
@@ -49,37 +49,23 @@ const getDetail = async (tid) => {
  * 获取用户帖子
  * @param {*}
  */
-const getUserPosts = async () => {
-  return axios.get('/post/list')
-}
+const getUserPosts = async () => axios.get('/post/list')
 
 /**
  * 获取用户收藏帖子
  * @param {*}
  */
-const getUserCollerctPosts = async () => {
-  return axios.get('/post/collections')
-}
+const getUserCollerctPosts = async () => axios.get('/post/collections')
 
 /**
  * 用户收藏帖子
  * @param {*}
  */
-const collectPost = async (tid) => {
-  return axios.get('/post/collect', {
+const collectPost = async tid =>
+  axios.get('/post/collect', {
     params: {
       tid
     }
   })
-}
 
-export {
-  getList,
-  getTopList,
-  getDetail,
-  addPost,
-  getUserPosts,
-  collectPost,
-  getUserCollerctPosts,
-  updatePost
-}
+export { getList, getTopList, getDetail, addPost, getUserPosts, collectPost, getUserCollerctPosts, updatePost }

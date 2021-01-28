@@ -7,10 +7,10 @@
         </div>
         <div class="content">
           <div class="info">
-            <p class="news-title" @click="detail(item._id)">
+            <div class="news-title" @click="detail(item._id)">
               <span class="layui-badge-rim">{{ catalogs[item.catalog] }}</span>
-              {{ item.title }}
-            </p>
+              <p v-html="item.title"></p>
+            </div>
             <div class="tags">
               <p>{{ item.user.name }}</p>
               <p class="user" v-if="item.user && item.user.isVip !== '0'">
@@ -134,6 +134,12 @@ export default {
         white-space: nowrap;
         width: 100%;
         transition: color .2s ease;
+        display: flex;
+        align-items: center;
+
+        span {
+          margin-right: 10px;
+        }
 
         &:hover {
           color: #FF6600;

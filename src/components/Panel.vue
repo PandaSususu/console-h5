@@ -12,7 +12,7 @@
         </template>
       </ul>
       <div class="post layui-hide-xs">
-        <span class="layui-icon layui-icon-search"></span>
+        <ui-search @handleFocus="handleFocus" @handleBlur="handleBlur" @handleSearch="handleSearch" :width="searchWidth"></ui-search>
         <router-link class="layui-btn" tag="button" :to="{ name: 'add' }">发表新帖</router-link>
       </div>
     </div>
@@ -20,8 +20,13 @@
 </template>
 
 <script>
+import Search from '@/components/contents/Search'
+
 export default {
   name: 'panel',
+  components: {
+    'ui-search': Search
+  },
   data() {
     return {
       navList: [
@@ -54,7 +59,22 @@ export default {
           path: '/index/logs'
         }
       ],
-      isLogin: this.$store.state.isLogin
+      isLogin: this.$store.state.isLogin,
+      searchWidth: '250px'
+    }
+  },
+  methods: {
+    handleFocus() {
+      this.searchWidth = '400px'
+    },
+    handleBlur() {
+      this.searchWidth = '250px'
+    },
+    handleSearch(value) {
+      if (!value) {
+        return this.$pop('请输入关键字', 'shake')
+      }
+      this.$router.push({ name: 'result', params: { keyword: value } })
     }
   }
 }
@@ -105,16 +125,7 @@ export default {
     top: 0;
     display: flex;
     align-items: center;
-
-    span {
-      margin-right: 10px;
-      font-size: 24px;
-      cursor: pointer;
-
-      &:hover {
-        color: #22dd92;
-      }
-    }
+    height: 100%;
   }
 }
 

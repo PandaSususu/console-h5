@@ -33,6 +33,7 @@ const Reset = () => import(/* webpackChunkName: 'reset' */ '../views/Reset.vue')
 const Add = () => import(/* webpackChunkName: 'add' */ '../components/contents/Add.vue')
 const Edit = () => import(/* webpackChunkName: 'edit' */ '../components/contents/Edit.vue')
 const Detail = () => import(/* webpackChunkName: 'detail' */ '../components/contents/Detail.vue')
+const Result = () => import(/* webpackChunkName: 'detail' */ '../components/contents/Result.vue')
 
 const routes = [
   {
@@ -111,6 +112,11 @@ const routes = [
     name: 'detail',
     component: Detail,
     props: true
+  },
+  {
+    path: '/result/:keyword',
+    name: 'result',
+    component: Result
   },
   {
     path: '/center',

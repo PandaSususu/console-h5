@@ -1,3 +1,5 @@
+import qs from 'qs'
+
 import axios from '@/utils/request'
 /**
  * 获取本周热议
@@ -23,9 +25,21 @@ const getLinks = async () => axios.get('/public/links')
  */
 const getAds = async () => axios.get('/public/ads')
 
-export {
-  getTopWeek,
-  getTips,
-  getLinks,
-  getAds
-}
+/**
+ * 获取搜索下拉框列表
+ * @param {*}
+ */
+const searchDropDownList = async keyword =>
+  axios.get('/public/drop-down-list', {
+    params: {
+      keyword
+    }
+  })
+
+/**
+ * 搜索帖子
+ * @param {*}
+ */
+const searchPost = async options => axios.get('/public/search-post?' + qs.stringify(options))
+
+export { getTopWeek, getTips, getLinks, getAds, searchDropDownList, searchPost }
