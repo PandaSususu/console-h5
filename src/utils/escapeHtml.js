@@ -28,7 +28,7 @@ const escapeHtml = val => {
     const imageGroup = result.match(imageReg)
     imageGroup.map(item => {
       const url = item.substr(3, item.length - 4)
-      result = result.replace(item, `<img src="${url}">`)
+      result = result.replace(item, `<img style="width: 100%" src="${url}">`)
     })
   }
 
